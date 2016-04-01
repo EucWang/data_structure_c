@@ -5,6 +5,7 @@
 #include "../lib/bitree/bitree.h"
 #include "student/student.h"
 #include "test.h"
+#include "../lib/bitree/bitree_traverse.h"
 
 void bitree_test(){
     BiTree bitree;
@@ -43,6 +44,20 @@ void bitree_test(){
     BiTree merge;
     bitree_merge(&merge, &bitree, &bitree2,studn_get_init(13,"liucuihua",0, 22, 11));
     printf("%s%d\n", "merge bitree size :", bitree_size(&merge));
+
+
+    List mlist;
+    list_init(&mlist, NULL);
+    preorder(merge.root, &mlist);
+    printf("%s%d\n", "merge and the order list size:", mlist.size);
+    printf("%s\n", "preorder() merge bitree, and then show all elements:");
+    list_resetIterator(&mlist);
+    while(list_hasNext(&mlist)){
+    	list_moveToNext(&mlist);
+    	Student * data;
+    	list_iterator(&mlist, (void **)&data);
+    	studn_print(data);
+    }
 
     bitree_destroy(&bitree);
     bitree_destroy(&bitree2);

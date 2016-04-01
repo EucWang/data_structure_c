@@ -1,9 +1,11 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 2.8)
 project(data_structure_test)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
+        src/lib/bitree/bitree_traverse.c
+        src/lib/bitree/bitree_traverse.h
         src/lib/bitree/bitree.c
         src/lib/bitree/bitree.h
         src/lib/cfg_op/cfg_op.c

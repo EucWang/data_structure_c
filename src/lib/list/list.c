@@ -95,3 +95,43 @@ int list_rem_next(List *list, ListElmt *elmt, void **data){
 }
 
 
+/**********************************************/
+
+/*判断指示器是否有下一个元素*/
+int list_hasNext(List *plist){
+    if(plist->current == NULL){
+        if(plist->head == NULL){
+            return 0;
+        }else{
+
+            return 1;
+        }
+    }else{
+        if(plist->current->next == NULL){
+            return 0;
+        }else{
+            return 1;
+        }
+    }
+}
+
+/*移动指示器到下一个位置*/
+void list_moveToNext(List *plist){
+    if(plist->current == NULL){
+    	plist->current = plist->head;
+    }else{
+    	plist->current = plist->current->next;
+    }
+}
+
+/*获取指示器位置处的data数据*/
+void list_iterator(List *plist, void **data){
+        *data = plist->current->data;
+}
+/*重置指示器*/
+void list_resetIterator(List *plist){
+	plist->current = NULL;
+}
+/**********************************************/
+
+

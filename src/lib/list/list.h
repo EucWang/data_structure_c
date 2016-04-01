@@ -36,4 +36,18 @@ int list_rem_next(List *list, ListElmt *elmt, void **data);
 #define list_data(elmt) ((elmt)->data)
 #define list_next(elmt) ((elmt)->next)
 
+
+/*遍历Set集合用到的几个函数*/
+
+/*判断指示器是否有下一个元素*/
+int list_hasNext(List *plist);
+
+/*移动指示器到下一个位置*/
+void list_moveToNext(List *plist);
+
+/*获取指示器位置处的data数据*/
+void list_iterator(List *plist, void **data);
+/*重置指示器*/
+void list_resetIterator(List *plist);
+
 #endif // LIST_H_INCLUDED
