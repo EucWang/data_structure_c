@@ -7,4 +7,6 @@
 
 void bitree_test();
 
+void bitree_test2();
+
 #endif //DATA_STRUCTURE_TEST_TEST_H

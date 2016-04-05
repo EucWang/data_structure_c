@@ -33,12 +33,17 @@ typedef struct BiTree_{
 /**
  * 二叉树的初始化
  */
-void bitree_init(BiTree *tree, void (*destroy)(void *data));
+void bitree_init(BiTree *tree, int (*compare)(const void *key1, const void *key2), void (*destroy)(void *data));
 
 /**
  * 二叉树的销毁
  */
 void bitree_destroy(BiTree *tree);
+
+/**
+ * 插入数据, 必须有compare方法
+ */
+int bitree_ins(BiTree *tree, const void *data);
 
 /**
  * 向二叉树的指定节点的左子节点位置插入数据

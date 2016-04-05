@@ -9,7 +9,7 @@
 
 void bitree_test(){
     BiTree bitree;
-    bitree_init(&bitree, (void *)studn_destroy);
+    bitree_init(&bitree, NULL, (void *)studn_destroy);
 
 
     bitree_ins_left(&bitree, NULL, (void *)studn_get_init(1,"zhangsan",1, 32, 9));
@@ -29,7 +29,7 @@ void bitree_test(){
 
 
     BiTree bitree2;
-    bitree_init(&bitree2, (void *)studn_destroy);
+    bitree_init(&bitree2, NULL, (void *)studn_destroy);
 
 
     bitree_ins_left(&bitree2, NULL, (void *)studn_get_init(7,"zhangsan",1, 32, 9));
@@ -64,3 +64,25 @@ void bitree_test(){
     bitree_destroy(&merge);
     return;
 }
+
+
+
+void bitree_test2(){
+    BiTree bitree;
+    bitree_init(&bitree, (void *)studn_compare, (void *)studn_destroy);
+
+    bitree_ins(&bitree, studn_get_init(4,"zhangquandan",1, 32, 10));
+    bitree_ins(&bitree, studn_get_init(3,"wangdazhui",1, 32, 9));
+    bitree_ins(&bitree, studn_get_init(1,"zhangsan",1, 32, 9));
+    bitree_ins(&bitree, studn_get_init(2,"lisi",1, 32, 8));
+    bitree_ins(&bitree, studn_get_init(5,"zhangfei",1, 32, 9));
+    bitree_ins(&bitree, studn_get_init(6,"liucuihua",0, 22, 11));
+
+    printf("%s%d\n", "bitree size :", bitree_size(&bitree));
+    bitree_rem_left(&bitree, bitree_root(&bitree)->left);
+    printf("%s%d\n", "after remove a node , bitree size :", bitree_size(&bitree));
+
+    bitree_destroy(&bitree);
+    return;
+}
+
