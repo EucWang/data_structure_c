@@ -4,7 +4,6 @@
 
 #include "bitree_traverse.h"
 #include <stdio.h>
-#include <stdlib.h>
 
 
 /**

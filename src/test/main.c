@@ -6,6 +6,6 @@
 
 
 int main() {
-    bitree_test();
+    bitree_test2();
     return 0;
 }
