@@ -56,6 +56,12 @@ int studn_match(Student *s1, Student *s2){
     return s1->_id == s2->_id ? 1 : 0;
 }
 
+int studn_compare(Student *s1, Student *s2){
+    return s1->_id - s2->_id;
+}
+
+
+
 void studn_print(Student *s){
     printf("[id:%d,name:%s,gender:%s,age:%d,school_class:%d]\n",
            s->_id, s->name, s->gender?"male":"female",s->age,s->school_class);
