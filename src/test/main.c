@@ -8,6 +8,7 @@
 int main() {
 //    bitree_test2();
 //    bitree_avl_test();
-    heap_test();
+//    heap_test();
+    test_parcel();
     return 0;
 }
