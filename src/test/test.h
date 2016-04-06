@@ -11,4 +11,6 @@ void bitree_test2();
 
 void bitree_avl_test();
 
+void heap_test();
+
 #endif //DATA_STRUCTURE_TEST_TEST_H

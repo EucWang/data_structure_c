@@ -4,6 +4,8 @@ project(data_structure_c)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
+        src/lib/bitree/heap.c
+        src/lib/bitree/heap.h
         src/lib/bitree/bitree_avl.c
         src/lib/bitree/bitree_avl.h
         src/lib/bitree/bitree_traverse.c
@@ -50,6 +52,7 @@ set(SOURCE_FILES
         src/test/stack_test.c
         src/test/bitree_test.c
         src/test/bitree_avl_test.c
+        src/test/heap_test.c
         src/test/main.c
         src/test/test.h)
 add_executable(data_structure_c ${SOURCE_FILES})

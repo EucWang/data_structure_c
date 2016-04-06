@@ -7,6 +7,7 @@
 
 int main() {
 //    bitree_test2();
-    bitree_avl_test();
+//    bitree_avl_test();
+    heap_test();
     return 0;
 }

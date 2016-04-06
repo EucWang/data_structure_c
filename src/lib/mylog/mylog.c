@@ -12,15 +12,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "mylog.h"
 
-#define IC_NO_LOG_LEVEL 0
-#define IC_DEBUG_LEVEL 1
-#define IC_INFO_LEVEL 2
-#define IC_WARNING_LEVEL 3
-#define IC_ERROR_LEVEL 4
 
 //文件名
-#define _DEBUG_FILE_ "socketclient.log"
+#define _DEBUG_FILE_ "test.log"
 //最大字符长度
 #define _MAX_STRING_LEN 10240
 
@@ -54,10 +50,10 @@ static error_OpenFile(int * pf){
     memset(fileName, 0 , sizeof(fileName));
 
 #ifdef WIN32
-    sprintf(fileName, "D:\\c_toy_log\\%s",_DEBUG_FILE_);
+    sprintf(fileName, "D:\\%s",_DEBUG_FILE_);
 #else
 //    sprintf(fileName, "$s/c_toy_log/%s", getenv("HOME"),_DEBUG_FILE_);
-    sprintf(fileName, "D:\\c_toy_log\\%s",_DEBUG_FILE_);
+    sprintf(fileName, "D:\\%s",_DEBUG_FILE_);
 #endif
 
     *pf = open(fileName, O_WRONLY|O_CREAT|O_APPEND, 0666);

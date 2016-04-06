@@ -8,6 +8,12 @@
 
 extern  int LogLevel[5];
 
+#define IC_NO_LOG_LEVEL 0
+#define IC_DEBUG_LEVEL 1
+#define IC_INFO_LEVEL 2
+#define IC_WARNING_LEVEL 3
+#define IC_ERROR_LEVEL 4
+
 /*
  * const char * file : 文件名称
  * int line : 文件行号
