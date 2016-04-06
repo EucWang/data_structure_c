@@ -161,15 +161,79 @@ static void rotate_left(BiTreeNode **node) {
         ((AvlNode *)bitree_data(*node))->factor = BITREE_AVL_BALANCED;  //重置平衡为0
         ((AvlNode *)bitree_data(left))->factor = BITREE_AVL_BALANCED;
     } else {                                                              //LR rotaion
-        grandchild = bitree_right(left);
-        //TODO
+    	//			       node                                   grandchild
+    	//          left            right                      left         node
+    	//         gl  grandchild                             gl   x       x2
+    	//             [x]      [x2]
+    	//
+        grandchild = bitree_right(left);    //node的左子节点的右子节点 ====简称 R2
+        bitree_right(left) = bitree_left(grandchild);   // R2 的左子节点替代R2的位置，作为node的左子节点的右子节点
+        bitree_left(grandchild) = left;    //将left作为 R2的左子节点， R2作为left的父节点，R2顶替node的位置
+        bitree_left(*node) = bitree_right(grandchild);  //R2的右子节点踢给node的左子节点位置，
+        bitree_right(grandchild) = *node;       //R2的右子节点指向node,node作为R2的子节点
 
+        switch(((AvlNode *)bitree_data(grandchild))->factor) {
+        case BITREE_AVL_LFT_HEAVY:
+        	((AvlNode *)bitree_data(*node))->factor = BITREE_AVL_RGT_HEAVY;
+        	((AvlNode *)bitree_data(left))->factor = BITREE_AVL_BALANCED;
+        	break;
+        case BITREE_AVL_BALANCED:
+        	((AvlNode *)bitree_data(*node))->factor = BITREE_AVL_BALANCED;
+        	((AvlNode *)bitree_data(left))->factor = BITREE_AVL_BALANCED;
+        	break;
+        case BITREE_AVL_RGT_HEAVY:
+        	((AvlNode *)bitree_data(*node))->factor = BITREE_AVL_BALANCED;
+        	((AvlNode *)bitree_data(left))->factor = BITREE_AVL_LFT_HEAVY;
+        	break;
+        }
+    	((AvlNode *)bitree_data(grandchild))->factor = BITREE_AVL_BALANCED;
+        *node = grandchild;                     //原来node的父节点现在作为grandchild的父节点
     }
-
+    return;
 }
 
 static void rotate_right(BiTreeNode **node) {
+    BiTreeNode *right, *grandchild;
 
+    right = bitree_right(*node);
+
+    if(((AvlNode *)bitree_data(right))->factor == BITREE_AVL_RGT_HEAVY) {  //LL rotation
+        bitree_right(*node) = bitree_left(right); //将left的右子节点踢给node,作为node的左节点
+        bitree_left(right) = *node;              //将node作为left的右节点
+        *node = right;                            //将left子节点提到原来node的位置
+
+        ((AvlNode *)bitree_data(*node))->factor = BITREE_AVL_BALANCED;  //重置平衡为0
+        ((AvlNode *)bitree_data(right))->factor = BITREE_AVL_BALANCED;
+    } else {                                                              //LR rotaion
+    	//			       node                                   grandchild
+    	//          left              right                     node         right
+    	//                   grandchild                                     [x]
+    	//             		         [x]
+    	//
+        grandchild = bitree_left(right);    //node的右子节点的左子节点 ====简称 R2
+        bitree_left(right) = bitree_right(grandchild);   // R2 的左子节点替代R2的位置，作为node的左子节点的右子节点
+        bitree_left(grandchild) = right;    //将left作为 R2的左子节点， R2作为left的父节点，R2顶替node的位置
+        bitree_right(*node) = bitree_left(grandchild);  //R2的右子节点踢给node的左子节点位置，
+        bitree_left(grandchild) = *node;       //R2的右子节点指向node,node作为R2的子节点
+
+        switch(((AvlNode *)bitree_data(grandchild))->factor) {
+        case BITREE_AVL_LFT_HEAVY:
+        	((AvlNode *)bitree_data(*node))->factor = BITREE_AVL_BALANCED;
+        	((AvlNode *)bitree_data(right))->factor = BITREE_AVL_RGT_HEAVY;
+        	break;
+        case BITREE_AVL_BALANCED:
+        	((AvlNode *)bitree_data(*node))->factor = BITREE_AVL_BALANCED;
+        	((AvlNode *)bitree_data(right))->factor = BITREE_AVL_BALANCED;
+        	break;
+        case BITREE_AVL_RGT_HEAVY:
+        	((AvlNode *)bitree_data(*node))->factor = BITREE_AVL_LFT_HEAVY;
+        	((AvlNode *)bitree_data(right))->factor = BITREE_AVL_BALANCED;
+        	break;
+        }
+    	((AvlNode *)bitree_data(grandchild))->factor = BITREE_AVL_BALANCED;
+        *node = grandchild;                     //原来node的父节点现在作为grandchild的父节点
+    }
+    return;
 }
 
 static int insert(BiTree_AVL *tree_avl,
@@ -177,6 +241,7 @@ static int insert(BiTree_AVL *tree_avl,
                   const void *data,
                   int *balance) {
 
+	return 0;
 }
 
 /**

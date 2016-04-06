@@ -59,6 +59,7 @@ void bitree_test(){
     	studn_print(data);
     }
 
+    list_destroy(&mlist);
     bitree_destroy(&bitree);
     bitree_destroy(&bitree2);
     bitree_destroy(&merge);
