@@ -51,7 +51,10 @@ void bitree_avl_destroy(BiTree_AVL *tree_avl) {
  */
 int bitree_avl_insert(BiTree_AVL *tree_avl, const void *data) {
     int balanced = 0;
-    return insert(tree_avl, &bitree_root(tree_avl), data, &balanced);
+    printf("root");
+    int retval = insert(tree_avl, &bitree_root(tree_avl), data, &balanced);
+    printf("\n");
+    return  retval;
 }
 
 
@@ -76,7 +79,8 @@ int bitree_avl_lookup(BiTree_AVL *tree_avl, void **data) {
  */
 
 static void destroy_right(BiTree_AVL *tree_avl, BiTreeNode *node) {
-    AvlNode **position;
+//    AvlNode **position;
+    BiTreeNode **position;
 
     if (bitree_avl_size(tree_avl) == 0) {
         printf("%s\n", "static void destroy_right fail, tree size is zero");
@@ -113,7 +117,8 @@ static void destroy_right(BiTree_AVL *tree_avl, BiTreeNode *node) {
 
 
 static void destroy_left(BiTree_AVL *tree_avl, BiTreeNode *node) {
-    AvlNode **position;
+//    AvlNode **position;
+    BiTreeNode **position;
 
     if (bitree_avl_size(tree_avl) == 0) {
         printf("%s\n", "static void destroy_left fail, tree size is zero");
@@ -239,8 +244,128 @@ static void rotate_right(BiTreeNode **node) {
 static int insert(BiTree_AVL *tree_avl,
                   BiTreeNode **node,
                   const void *data,
-                  int *balance) {
+                  int *balanced) {
 
+    AvlNode *avl_data;
+    int cmpval, retval;
+
+    //如果node代表了一个叶子节点
+    if (bitree_is_eob(*node)) {
+        avl_data = (AvlNode *) malloc(sizeof(AvlNode));                //生成一个新的节点插入到树中
+        if (avl_data == NULL) {
+            printf("%s\n", "static insert() function fail, malloc err");
+            return -1;
+        }
+
+        avl_data->factor = BITREE_AVL_BALANCED;
+        avl_data->hidden = 0;
+        avl_data->data = (void *)data;
+        return bitree_ins_left(tree_avl, *node, avl_data);
+    }else {      //node不是叶子节点
+        void * tmp_data = ((AvlNode *)bitree_data(*node))->data;
+        cmpval = tree_avl->compare(data, tmp_data);
+        if (cmpval < 0) {
+            //移动到该节点的左子节点,判断左子节点是否是叶子节点
+            if (bitree_is_eob(bitree_left(*node))) {
+                printf("->left");
+                avl_data = (AvlNode *) malloc(sizeof(AvlNode));                //生成一个新的节点插入到树中
+                if (avl_data == NULL) {
+                    printf("%s\n", "static insert() function fail, malloc err");
+                    return -1;
+                }
+
+                avl_data->factor = BITREE_AVL_BALANCED;
+                avl_data->hidden = 0;
+                avl_data->data = (void *)data;
+
+                if (bitree_ins_left(tree_avl, *node, avl_data) != 0) {
+                    printf("%s\n", "static insert() function fail , call bitree_ins_left() fail.");
+                    return -1;
+                }
+
+                *balanced = 0;
+            }else {  //左子节点不是叶子节点
+                retval = insert(tree_avl, &(bitree_left(*node)), data, balanced);
+                if (retval != 0) {
+                    return  retval;
+                }
+            }
+
+            //如下确保树保持平衡
+            if (!(*balanced)) {
+                switch (((AvlNode *) bitree_data(*node))->factor) {
+                    case BITREE_AVL_LFT_HEAVY:
+                        rotate_left(node);
+                        *balanced = 1;
+                        break;
+                    case BITREE_AVL_BALANCED:
+                        ((AvlNode *)bitree_data(*node))->factor = BITREE_AVL_LFT_HEAVY;
+                        break;
+                    case BITREE_AVL_RGT_HEAVY:
+                        ((AvlNode *)bitree_data(*node))->factor = BITREE_AVL_BALANCED;
+                        *balanced = 1;
+                        break;
+                }
+            }
+        } else if(cmpval > 0){ //移动到右子节点
+            if (bitree_is_eob(bitree_right(*node))) {
+                printf("->left");
+                avl_data = (AvlNode *) malloc(sizeof(AvlNode));                //生成一个新的节点插入到树中
+                if (avl_data == NULL) {
+                    printf("%s\n", "static insert() function fail, malloc err");
+                    return -1;
+                }
+
+                avl_data->factor = BITREE_AVL_BALANCED;
+                avl_data->hidden = 0;
+                avl_data->data = (void *)data;
+
+                if (bitree_ins_right(tree_avl, *node, avl_data) != 0) {
+                    printf("%s\n", "static insert() function fail , call bitree_ins_left() fail.");
+                    return -1;
+                }
+
+                *balanced = 0;
+            }else {  //左子节点不是叶子节点
+                retval = insert(tree_avl, &(bitree_right(*node)), data, balanced);
+                if (retval != 0) {
+                    return  retval;
+                }
+            }
+
+            //如下确保树保持平衡
+            if (!(*balanced)) {
+                switch (((AvlNode *) bitree_data(*node))->factor) {
+                    case BITREE_AVL_LFT_HEAVY:
+                        ((AvlNode *)bitree_data(*node))->factor = BITREE_AVL_BALANCED;
+                        *balanced = 1;
+                        break;
+                    case BITREE_AVL_BALANCED:
+                        ((AvlNode *)bitree_data(*node))->factor = BITREE_AVL_RGT_HEAVY;
+                        break;
+                    case BITREE_AVL_RGT_HEAVY:
+                        rotate_right(node);
+                        *balanced = 1;
+                        break;
+                }
+            }
+        }else {
+            //当找到同样的数据的时候的处理
+            if (!((AvlNode *) bitree_data(*node))->hidden) {
+                printf("%s\n", "find same data, but the data was not hidden, do nothing");
+                return -1;
+            } else {
+                //插入一条新数据
+                if (tree_avl->destroy != NULL) {
+                    tree_avl->destroy(((AvlNode *) bitree_data(*node))->data);
+                }
+
+                ((AvlNode *) bitree_data(*node))->data = (void *)data;
+                ((AvlNode *) bitree_data(*node))->hidden = 0;
+                *balanced = 1;
+            }
+        }
+    }
 	return 0;
 }
 

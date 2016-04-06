@@ -49,6 +49,7 @@ set(SOURCE_FILES
         src/test/set_cover_test.c
         src/test/stack_test.c
         src/test/bitree_test.c
+        src/test/bitree_avl_test.c
         src/test/main.c
         src/test/test.h)
 add_executable(data_structure_c ${SOURCE_FILES})
