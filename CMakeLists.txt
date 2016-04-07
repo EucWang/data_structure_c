@@ -4,6 +4,8 @@ project(data_structure_c)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
+        src/lib/graph/graph_bfs.c
+        src/lib/graph/graph_bfs.h
         src/lib/graph/graph.h
         src/lib/graph/graph.c
         src/lib/bitree/pqueue.h
