@@ -15,4 +15,6 @@ void heap_test();
 
 void test_parcel();
 
+void graph_test();
+
 #endif //DATA_STRUCTURE_TEST_TEST_H

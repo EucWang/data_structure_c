@@ -34,7 +34,12 @@ int set_m_intersection(Set *seti, const Set *set1, const Set *set2);
 
 /*获取2个集合的差集*/
 int set_m_difference(Set *setd, const Set *set1, const Set *set2);
-/*判断一个元素是否在集合中*/
+
+/**
+ * 判断一个元素是否在集合中
+ * 返回1,表示在集合中
+ * 返回0,不在集合中
+ */
 int set_is_member(const Set *pSet, const void *data);
 
 /*判断集合set1是否是集合set2的子集*/

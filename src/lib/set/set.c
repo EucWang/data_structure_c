@@ -164,13 +164,20 @@ int set_m_difference(Set *setd, const Set *set1, const Set *set2){
     return 0;
 }
 
-/*判断一个元素是否在集合中*/
-int set_is_member(const Set *pSet, const void *data){
+/**
+ * 判断一个元素是否在集合中
+ * 返回1,表示在集合中
+ * 返回0,不在集合中
+ */
+int set_is_member(const Set *pSet, const void *data) {
+    if (pSet == NULL || set_size(pSet) == 0) {
+        return 0;
+    }
     ListElmt *member;
-    void * member_data = NULL;
-    for(member = pSet->head; member != NULL; member = list_next(member)){
+    void *member_data = NULL;
+    for (member = pSet->head; member != NULL; member = list_next(member)) {
         member_data = list_data(member);
-        if(pSet->match(member_data, data)){
+        if (pSet->match(member_data, data)) {
             return 1;
         }
     }

@@ -7,6 +7,13 @@
 #include <string.h>
 #include "../mylog/mylog.h"
 
+#define heap_parent(npos) ((int)((npos) -1) /2)  //计算一个节点其父结点在数组中的索引值
+
+#define heap_left(npos) (((npos)* 2) + 1)    //计算一个节点其左子结点在数组中的索引值
+
+#define heap_right(npos) (((npos)* 2) + 2)   //计算一个节点其右子结点在数组中的索引值
+
+
 /**
  * 在对堆进行其他操作之前必须进行初始化函数调用
  * compare 函数会被堆的各种操作调用,用来比较堆中的结点
