@@ -19,4 +19,6 @@ void graph_test();
 
 void graph_bfs_test();
 
+void graph_dfs_test();
+
 #endif //DATA_STRUCTURE_TEST_TEST_H

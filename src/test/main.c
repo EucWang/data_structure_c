@@ -11,6 +11,7 @@ int main() {
 //    heap_test();
 //    test_parcel();
 //    graph_test();
-    graph_bfs_test();
+//    graph_bfs_test();
+    graph_dfs_test();
     return 0;
 }

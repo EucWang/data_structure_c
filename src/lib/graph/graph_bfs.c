@@ -58,7 +58,8 @@ void bfs_vertex_destroy(BfsVertex *bfsVertex) {
 
 
 /**
- * 广度优先搜索 :　获取start结点可以到达的顶点的列表
+ * 广度优先搜索 :　获取start结点可以到达的顶点的列表, 从start开始的跳数信息都由邻接表结构链表中的BfsVertex来维护
+ * 无向图
  * 广度优先搜素可以确定最短的路径选择.
  * 可以确定2个结点之间最小的跳数
  * 该函数会修改图graph,因此如果有必要需要在调用本函数之前先对图创建拷贝.
@@ -74,7 +75,7 @@ void bfs_vertex_destroy(BfsVertex *bfsVertex) {
  * @param start: 代表起点,
  * @param hops:  返回的跳数的链表.
  */
-int bfs(Graph *graph, BfsVertex *start, List *hops) {
+int graph_bfs(Graph *graph, BfsVertex *start, List *hops) {
     Queue_my queue;
     AdjList *adjList , *crl_adjlist;
     BfsVertex *clr_vertex, *adj_vertex;
@@ -152,6 +153,7 @@ int bfs(Graph *graph, BfsVertex *start, List *hops) {
     //搜索完成之后,队列为空,可以销毁队列
     queue_m_destroy(&queue);
     //对返回结构的List进行初始化
+    list_init(hops, NULL);
     //对图进行遍历,找到图中节点数据的hops字段不是-1的数据,
     list_resetIterator(&(graph->adjlists));
     while (list_hasNext(&(graph->adjlists))) {

@@ -8,6 +8,9 @@
 #include "./student/student.h"
 #include "test.h"
 
+/**
+ * 广度优先测试
+ */
 void graph_bfs_test() {
     Student s[] = {
             *studn_get_init(14, "liucuihua", 0, 22, 11),
@@ -88,7 +91,7 @@ void graph_bfs_test() {
 
     List list2;
     list_init(&list2, NULL);
-    bfs(&graph, b, &list2);
+    graph_bfs(&graph, b, &list2);
     printf("%s\n", "bfs success");
 
     BfsVertex *bfsVertex;

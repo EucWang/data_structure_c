@@ -62,6 +62,6 @@ void bfs_vertex_destroy(BfsVertex *bfsVertex);
  * @param start: 代表起点,
  * @param hops:  返回的跳数的链表.
  */
-int bfs(Graph *graph, BfsVertex *start, List *hops);
+int graph_bfs(Graph *graph, BfsVertex *start, List *hops);
 
 #endif //DATA_STRUCTURE_C_GRAPH_BFS_H
