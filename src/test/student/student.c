@@ -52,8 +52,14 @@ void studn_destroy(Student *s){
     return;
 }
 
-int studn_match(Student *s1, Student *s2){
-    return s1->_id == s2->_id ? 1 : 0;
+int studn_match(Student *s1, Student *s2) {
+    if (s1 != NULL && s2 != NULL) {
+        if (s1->_id > 0 && s2->_id > 0) {
+            return s1->_id == s2->_id ? 1 : 0;
+        }
+    }
+
+    return -1;
 }
 
 int studn_compare(Student *s1, Student *s2){

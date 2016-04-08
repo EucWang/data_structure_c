@@ -53,12 +53,12 @@ int graph_ins_vertex(Graph *graph, const void *data){
     int retval = 0;
 
     //首先确保插入的节点数据在结点链表中没有相同的
-    void **ele_data;
+    AdjList *ele_data;
     list_resetIterator(&(graph->adjlists));  //重置遍历参数
     while (list_hasNext(&(graph->adjlists))) {   //判断是否有可以遍历的数据
         list_moveToNext(&(graph->adjlists));
-        list_iterator(&(graph->adjlists),ele_data);   //获取遍历的数据
-        if(graph->match(((AdjList *)(*ele_data))->vertex, data)) {   //比较数据,如果相同,则不插入数据,
+        list_iterator(&(graph->adjlists),(void **)(&ele_data));   //获取遍历的数据
+        if(graph->match(ele_data->vertex, data)) {   //比较数据,如果相同,则不插入数据,
             printf("%s\n", "graph_ins_vertex() function fail, has same data in the graph, do nothing");
             return 1;
         }
@@ -92,13 +92,13 @@ int graph_ins_vertex(Graph *graph, const void *data){
 int graph_ins_edge(Graph *graph, const void *data1, const void *data2){
     int retval = 0;
     //确保插入的边的两个节点都在图中的结点链表中
-    AdjList **ele_data;
+    AdjList *ele_data;
     void  * the_data = NULL;
     list_resetIterator(&(graph->adjlists));  //重置遍历参数
     while (list_hasNext(&(graph->adjlists))) {   //判断是否有可以遍历的数据
         list_moveToNext(&(graph->adjlists));
-        list_iterator(&(graph->adjlists),(void **)ele_data);   //获取遍历的数据
-        the_data = ((AdjList *)(*ele_data))->vertex;
+        list_iterator(&(graph->adjlists),(void **)(&ele_data));   //获取遍历的数据
+        the_data = ele_data->vertex;
         if(graph->match(the_data, data2)) {   //比较数据,如果相同,退出循环
             break;
         }
@@ -112,8 +112,8 @@ int graph_ins_edge(Graph *graph, const void *data1, const void *data2){
     list_resetIterator(&(graph->adjlists));  //重置遍历参数
     while (list_hasNext(&(graph->adjlists))) {   //判断是否有可以遍历的数据
         list_moveToNext(&(graph->adjlists));
-        list_iterator(&(graph->adjlists),(void **)ele_data);   //获取遍历的数据
-        the_data = ((AdjList *)(*ele_data))->vertex;
+        list_iterator(&(graph->adjlists),(void **)(&ele_data));   //获取遍历的数据
+        the_data = ele_data->vertex;
         if(graph->match(the_data, data1)) {   //比较数据,如果相同,退出循环
             break;
         }
@@ -124,7 +124,7 @@ int graph_ins_edge(Graph *graph, const void *data1, const void *data2){
     }
 
     //将data2插入到data1的结点中的set集合中,也就是data1的出度
-    retval = set_insert(&((*ele_data)->adjacent), data2);
+    retval = set_insert(&(ele_data->adjacent), data2);
     if (retval != 0) {
         printf("%s\n", "graph_ins_edge function() fail, to insert data2 to the set of data1's edges fail");
         return retval;

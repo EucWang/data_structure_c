@@ -60,6 +60,7 @@ set(SOURCE_FILES
         src/test/heap_test.c
         src/test/parcels.c
         src/test/graph_test.c
+        src/test/graph_bfs_test.c
         src/test/main.c
         src/test/test.h)
 add_executable(data_structure_c ${SOURCE_FILES})

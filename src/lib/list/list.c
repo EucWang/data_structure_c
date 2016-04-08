@@ -40,7 +40,7 @@ int list_ins_next(List *list, ListElmt *elmt, const void *data){
     new_elmt->data = (void *)data;  //为新元素赋值
 
     if(elmt == NULL){   //第二个形参为NULL,将新的data数据插入到列表头部
-    	printf("list_ins_next(): insert to the head\n");
+//    	printf("list_ins_next(): insert to the head\n");
         if(list_size(list) == 0){
             list->tail = new_elmt;
         }

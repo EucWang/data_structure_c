@@ -30,7 +30,25 @@ typedef struct BfsVertex_{
      * hops维护从起始结点开始到顶点的跳数统计
      */
     int hops;
+
+    int (*match)(const void *data1, const void *data2);
+    void (*destroy)(void *data);
 }BfsVertex;
+
+/**
+ * BfsVertex 结构的初始化和内存分配
+ */
+BfsVertex * bfs_vertex_get_init(void *data,
+                               int (*match)(const void *key1, const void *key2),
+                               void (*destroy)(void *data));
+
+
+int bfs_vertex_match(BfsVertex *b1, BfsVertex *b2);
+
+/**
+ * BfsVertex 结构的销毁方法
+ */
+void bfs_vertex_destroy(BfsVertex *bfsVertex);
 
 /**
  * 广度优先搜素

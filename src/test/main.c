@@ -10,6 +10,7 @@ int main() {
 //    bitree_avl_test();
 //    heap_test();
 //    test_parcel();
-    graph_test();
+//    graph_test();
+    graph_bfs_test();
     return 0;
 }

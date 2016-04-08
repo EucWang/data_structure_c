@@ -17,4 +17,6 @@ void test_parcel();
 
 void graph_test();
 
+void graph_bfs_test();
+
 #endif //DATA_STRUCTURE_TEST_TEST_H
