@@ -29,7 +29,7 @@ static Parcel *parcel_get_init(int id, int priority, char *addr) {
 
     p->_id = id;
     p->priority = priority;
-    sprintf(p->addr, addr);
+    sprintf(p->addr, "%s", addr);
 
     return p;
 }

@@ -26,7 +26,7 @@
  *  @param: esize
  *  @param: compare
  */
-int issort(void *data, int size, int esize, int (*compare)(const void *key1, const void *key2));
+int insert_sort(void *data, int size, int esize, int (*compare)(const void *key1, const void *key2));
 
 /**
  *  在处理到大型数据集时,快速排序是一个比较好的选择

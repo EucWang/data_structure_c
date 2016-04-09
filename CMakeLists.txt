@@ -4,6 +4,8 @@ project(data_structure_c)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
+		src/lib/sort/sort.c
+		src/lib/sort/sort.h
         src/lib/graph/graph_dfs.c
         src/lib/graph/graph_dfs.h
         src/lib/graph/graph_bfs.c
@@ -66,6 +68,7 @@ set(SOURCE_FILES
         src/test/graph_test.c
         src/test/graph_bfs_test.c
         src/test/graph_dfs_test.c
+        src/test/sort_insert_sort_test.c
         src/test/main.c
         src/test/test.h)
 add_executable(data_structure_c ${SOURCE_FILES})

@@ -12,6 +12,7 @@ int main() {
 //    test_parcel();
 //    graph_test();
 //    graph_bfs_test();
-    graph_dfs_test();
+//    graph_dfs_test();
+	sort_insert_sort_test();
     return 0;
 }

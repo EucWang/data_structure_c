@@ -21,4 +21,7 @@ void graph_bfs_test();
 
 void graph_dfs_test();
 
+
+void sort_insert_sort_test();
+
 #endif //DATA_STRUCTURE_TEST_TEST_H
