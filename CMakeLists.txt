@@ -68,7 +68,7 @@ set(SOURCE_FILES
         src/test/graph_test.c
         src/test/graph_bfs_test.c
         src/test/graph_dfs_test.c
-        src/test/sort_insert_sort_test.c
+        src/test/sort_test.c
         src/test/main.c
         src/test/test.h)
 add_executable(data_structure_c ${SOURCE_FILES})

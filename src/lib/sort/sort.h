@@ -64,6 +64,6 @@ int insert_sort(void *data, int size, int esize, int (*compare)(const void *key1
  * @param: compare
  * 当qksort返回时,data包含已经排序的元素
  */
-int qksort(void *data, int size, int esize, int i ,int k, int (*compare)(const void *key1, const void *key2));
+int quick_sort(void *data, int size, int esize, int i ,int k, int (*compare)(const void *key1, const void *key2));
 
 #endif //DATA_STRUCTURE_C_SORT_H
