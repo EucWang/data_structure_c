@@ -4,6 +4,8 @@ project(data_structure_c)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
+		src/lib/numerical_evaluation/numerical_evaluation.h
+		src/lib/numerical_evaluation/numerical_evaluation.c
 		src/lib/sort/sort.c
 		src/lib/sort/sort.h
         src/lib/graph/graph_dfs.c

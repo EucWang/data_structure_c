@@ -438,3 +438,48 @@ int radix_sort(int *data, int size, int p, int k) {
     return 0;
 }
 
+
+
+/**
+ * 只能对有序数据集合进行操作.
+ * 二分查找能够应用到任何类型的数据,只要这些数据只要能够排序
+ * 相对于查找,维护一个有序数据集合的代价更高.
+ * 此外,元素必须存储在连续的空间中.
+ * 因此,当待搜索的集合是相对静态的数据集时, 此时使用二分查找法是最好的选择
+ *
+ * @param sorted: 排好序的数组
+ * @param target: 数组中的目标元素
+ * @param size:   数组大小
+ * @param esize:  数组元素大小
+ * @param compare: 数组元素比较函数
+ * 成功,返回target的索引值,否则返回-1
+ */
+int bisearch(void *sorted,
+             void *target,
+             int size,
+             int esize,
+             int (*compare)(const void *key1, const void *key2)) {
+
+    int left, middle, right;
+    right = size - 1;
+
+    while (left <= right) {
+        middle = (left + right) / 2;
+
+        switch (compare(((char *)sorted + (esize * middle)),target)) {
+            case -1:
+                left = middle + 1;
+                break;
+            case 1:
+                right = middle - 1;
+                break;
+            case 0:
+                return middle;
+                break;
+        }
+    }
+    return -1;
+}
+
+
+
