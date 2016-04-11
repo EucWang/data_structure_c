@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stddef.h>
+#include <math.h>
 #include "test.h"
 
 
@@ -14,6 +15,10 @@ int main() {
 //    graph_bfs_test();
 //    graph_dfs_test();
 //	sort_insert_sort_test();
-	sort_quick_sort_test();
+//	sort_quick_sort_test();
+//	sort_merge_sort_test();
+//    sort_count_sort_test();
+    sort_radix_sort_test();
+
     return 0;
 }

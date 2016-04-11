@@ -26,4 +26,10 @@ void sort_insert_sort_test();
 
 void sort_quick_sort_test();
 
+void sort_merge_sort_test();
+
+void sort_count_sort_test();
+
+void sort_radix_sort_test();
+
 #endif //DATA_STRUCTURE_TEST_TEST_H

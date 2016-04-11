@@ -66,4 +66,67 @@ int insert_sort(void *data, int size, int esize, int (*compare)(const void *key1
  */
 int quick_sort(void *data, int size, int esize, int i ,int k, int (*compare)(const void *key1, const void *key2));
 
+
+/**
+ * 归并排序
+ * 在所有情况下都能达到快速排序的平均性能,但是需要额外的存储空间
+ * 原理: 将数据集对半分堆,对每一堆再次对半分堆,重复过程直到每堆只有一个元素,
+ *        然后将堆两两合并,合并的堆就可以是两个有序堆的合集,也是有序的.合并过程持续到完成
+ * @param data : 数组
+ * @param size : 数组大小
+ * @param esize : 数组每个元素内存占空间大小
+ * @param i :    索引开始,默认为0
+ * @param k :    索引结束, 默认为 size - 1
+ * @param compare :  比较函数
+ *
+ * 关键是如何将两个有序集合合并为一个有序集,这个有函数merge完成
+ * 其将data中i到j之间的数据集与j+1到k之间的数据集合并成一个i到k的有序数据集
+ */
+int merge_sort(void *data,
+                int size,
+                int esize,
+                int i,
+                int k,
+                int (*compare)(const void *key1, const void *key2));
+
+
+
+
+/**
+ * 计数排序
+ * 线性排序,速度快,非常稳定,稳定度排序能使具有相同数值的元素有相同的排序,就像他们在原始集合中表现出来的一样
+ * 通过计算一个集合中元素出现的次数来确定集合如何排列
+ * 计数排序不需要进行元素比较
+ * 计数排序有一定的局限性:
+ *      它只能用于整形或者那些可以用整形来表示的数据集合,这是因为计数排序利用一个数组的索引来记录元素出现的次数,
+ *      比如,如果整数3出现过4次,那么4将存储到数组索引为3的位置上.
+ *      同时,我们还需要知道集合中最大整数的值,以便于为数组分配足够的空间
+ *
+ * @param data : 整数的数组
+ * @param size : data中元素的个数
+ * @param k    : 为data中最大的整数+1
+ */
+int count_sort(int *data, int size, int k);
+
+
+/**
+ * 基数排序
+ * 线性排序算法,
+ * 将数据按位分开,并从数据的最低有效位到最高有效位进行比较,一次排序,从而得到有序数据集合
+ * 基数排序会用到计数排序,因为对于基数排序,除了稳定性,他还是一种线性算法,切必须知道每一位可能的最大整数值
+ *
+ * 基数排序不局限于对整形数据进行排序,只要能把元素分割成整形数,就可以使用基数排序
+ * 例如可以对一个以2的8次方为基数 字符串进行基数排序,或者对一个64位的整数按4位以2的16次方为基数的值进行排序
+ * 具体选择什么值为基数取决于数据本身, 同时考虑空间限制,需要将pn + pk最小化
+ * (其中p为每个元素的位数,n为元素的个数,k为基数). 一般使k小于等于n
+ *
+ * @param data:
+ * @param size: data中整数的个数
+ * @param p:    指定每个整数包含的位数,
+ * @param k:    k指定基数,一般使k小于等于size
+ *
+ */
+int radix_sort(int *data, int size, int p, int k);
+
+
 #endif //DATA_STRUCTURE_C_SORT_H
