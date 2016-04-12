@@ -4,6 +4,10 @@ project(data_structure_c)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
+		src/lib/comprass/compress.c
+		src/lib/comprass/compress.h
+		src/lib/comprass/bit_ctrl.c
+		src/lib/comprass/bit_ctrl.h
 		src/lib/numerical_evaluation/numerical_evaluation.h
 		src/lib/numerical_evaluation/numerical_evaluation.c
 		src/lib/sort/sort.c
