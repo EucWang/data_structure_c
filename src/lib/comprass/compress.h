@@ -21,8 +21,19 @@ typedef struct HuffNode_{
  * 哈夫曼编码表的实体的结构体
  */
 typedef struct HuffCode_{
+    /**
+     * 默认为1的标志位,指示此条目是否已经存放一个代码
+     */
     unsigned char used;
+
+    /**
+     * 存放在条目中的哈夫曼编码
+     */
     unsigned  short code;
+
+    /**
+     * 编码包含的位数,每个编码都是一个短整数,不会大于16位
+     */
     unsigned  char size;
 }HuffCode;
 

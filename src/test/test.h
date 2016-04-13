@@ -32,4 +32,10 @@ void sort_count_sort_test();
 
 void sort_radix_sort_test();
 
+
+void huff_compress_test();
+
+
+void huff_uncompress_test();
+
 #endif //DATA_STRUCTURE_TEST_TEST_H

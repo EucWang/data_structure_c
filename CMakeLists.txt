@@ -4,6 +4,8 @@ project(data_structure_c)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
+		src/test/socket_transfer/socket_transfer.c
+		src/test/socket_transfer/socket_transfer.h
 		src/lib/comprass/compress.c
 		src/lib/comprass/compress.h
 		src/lib/comprass/bit_ctrl.c
@@ -75,6 +77,7 @@ set(SOURCE_FILES
         src/test/graph_bfs_test.c
         src/test/graph_dfs_test.c
         src/test/sort_test.c
+		src/test/huff_compress_test.c
         src/test/main.c
         src/test/test.h)
 add_executable(data_structure_c ${SOURCE_FILES})
