@@ -22,7 +22,7 @@ int main() {
 
     huff_compress_test();
     printf("%s\n", "compress end");
-//    huff_uncompress_test();
-//    printf("%s\n", "uncompress end");
+    huff_uncompress_test();
+    printf("%s\n", "uncompress end");
     return 0;
 }

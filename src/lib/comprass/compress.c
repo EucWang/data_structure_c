@@ -6,6 +6,7 @@
 #include <netinet/in.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "bit_ctrl.h"
 #include "compress.h"
@@ -130,6 +131,7 @@ static int build_tree(int *freqs, BiTree **tree) {
             pqueue_destroy(&pQueue);
             return -1;
         }
+        bitree_init(merge, (void *)huffnode_compare, NULL);
 
         //提取两个二叉树树, 这两个树的根节点有最小的频率值,提起之后,优先级队列中就不存在这两棵树了
         if (pqueue_extract(&pQueue, (void **) (&left )) != 0 ||
@@ -234,7 +236,7 @@ int huffman_compress(const unsigned char *original/*in*/,
     *compressed = NULL;
 
     //对频率数组初始化
-    for (c = 0; c < UCHAR_MAX; ++c) {
+    for (c = 0; c <= UCHAR_MAX; ++c) {
         freqs[c] = 0;
     }
 
@@ -290,7 +292,7 @@ int huffman_compress(const unsigned char *original/*in*/,
     //将原始数据的容量大小写入到comp中
     memcpy(comp, &size, sizeof(int));
     //将频率数组中的内容写入到comp后序的内存空间中
-    for (c = 0; c < UCHAR_MAX; ++c) {
+    for (c = 0; c <= UCHAR_MAX; ++c) {
         comp[sizeof(int) + c] = (unsigned char) freqs[c];
     }
 
@@ -313,6 +315,10 @@ int huffman_compress(const unsigned char *original/*in*/,
             //这个是从高位开始写入,先获取最高的位的,然后直到最低位
             cpos = (sizeof(short) * 8) - table[c].size + i;
             //获取哈夫曼编码的给定位的状态
+            //虽然在内存中是大头模式,比如 二进制10,两字节是0000 0010 0000 0000
+            //这里取位,比如取14位, 依然将其转换成小头模式,从左往右显示 0000 0000 0000 0010
+            //那么这里只需要获得两位的有效位数就是二进制的10
+            //大头模式和小偷模式,不影响计算字节位在字节中的顺序
             int status = bit_get((unsigned char *) &table[c].code, cpos);
             //将这一字节指定位的状态写入到comp中
             bit_set(comp, opos, status);
@@ -345,9 +351,14 @@ int huffman_uncompress(const unsigned char *compressed,
     hsize = sizeof(int) + (UCHAR_MAX + 1);
     memcpy(&size, compressed, sizeof(int)); //获取第一个int型数据的内容,传递给size
 
+    printf("%d\n", size);
+
     //获取频率数组
-    for (c = 0; c < UCHAR_MAX; ++c) {
+    for (c = 0; c <= UCHAR_MAX; ++c) {
         freqs[c] = compressed[sizeof(int) + c];
+        if (freqs[c] > 0) {
+            printf("%c,%d ; ",c,freqs[c]);
+        }
     }
 
     //根据频率数组构造哈夫曼树,
@@ -373,7 +384,7 @@ int huffman_uncompress(const unsigned char *compressed,
                 node = bitree_left(node);
             }
         } else {
-            if (bitree_is_eob(node) || bitree_right(node)) {
+            if (bitree_is_eob(node) || bitree_is_eob(bitree_right(node))) {
                 bitree_destroy(tree);
                 free(tree);
                 return -1;
