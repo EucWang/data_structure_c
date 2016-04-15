@@ -56,11 +56,13 @@ typedef struct HuffCode_{
 
 /**
  * define the number of bits for lz77 phrase tokens
+ * 1 +１２　＋　５　＋8 = 26位
  */
 #define LZ77_PHRASE_BITS (LZ77_TYPE_BITS+LZ77_WINOFF_BITS+LZ77_NEXT_BITS+LZ77_BUFLEN_BITS)
 
 /**
  * define the number of bits for lz77 symbol tokens
+ * 1 + 8 = 9 ,9位
  */
 #define LZ77_SYMBOL_BITS (LZ77_TYPE_BITS+LZ77_NEXT_BITS)
 
@@ -138,10 +140,35 @@ int huffman_compress(const unsigned char *original/*in*/,
 int huffman_uncompress(const unsigned char *compressed,
                         unsigned char **original);
 
+
+/**
+ * LZ77是一种基于字典的算法
+ * 它通过用小的标记代替数据中多次重复出现的长串的方法来压缩数据.
+ * 其处理的符号不一定是文本字符,可以是任何大小的符号,但其通常选择一个字节的符号
+ *
+ * 用LZ77算法压缩缓冲区original中的数据,original包含size个字节的空间.
+ * 压缩后的数据存入缓冲区compressed中
+ * 由于函数调用者并不知道compressed需要多大的存储空间.
+ * 因此要通过lz77_compress函数调用malloc来动态的分配存储空间.
+ * 当这块存储空间不再使用时,由调用者调用函数free来释放空间
+ *
+ * 如果数据压缩成功, 返回压缩后数据的字节数,否则,返回-1
+ */
 int lz77_compress(const unsigned char *original,
                   unsigned char **compressed,
                     int size);
 
+/**
+ * 用lz77算法解压缩缓冲区compressed中的数据,
+ * 假定缓冲区包含的数据由lz77_compress压缩.
+ * 修复后的数据存入缓冲区original中
+ * 由于函数调用者并不知道original需要多大的空间,
+ * 因此要通过lz77_uncompressed函数调用malloc来动态分配存储空间
+ * 当这块空间不在使用时,由调用者调用函数free来释放空间
+ *
+ * 这里滑动窗口大小为8字节,前向缓冲区大小为4字节
+ * 在实际中,滑动窗口典型的大小为4kb(4096字节),前向缓冲区大小通常小于100字节
+ */
 int lz77_uncompress(const unsigned char *compressed,
                     unsigned char **original);
 

@@ -8,7 +8,9 @@
 #include "test.h"
 #include <string.h>
 
-
+/**
+ * 压缩一个文本文件,然后将压缩之后的内容保存为另外一个文件
+ */
 void huff_compress_test(){
     FILE *file = NULL;
     file = fopen("D:/c_note.txt", "rb");
@@ -56,6 +58,9 @@ void huff_compress_test(){
     return;
 }
 
+/**
+ * 将压缩数据之后的文件还原成压缩之前的文件
+ */
 void huff_uncompress_test(){
 
     FILE *file = NULL;

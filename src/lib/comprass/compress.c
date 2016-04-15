@@ -91,7 +91,7 @@ static int build_tree(int *freqs, BiTree **tree) {
                 pqueue_destroy(&pQueue);
                 return -1;
             }
-            bitree_init(init, (void *)huffnode_compare, NULL);
+            bitree_init(init, (void *) huffnode_compare, NULL);
 
             //新生成一个放入到二叉树中的结点
             if ((data = (HuffNode *) malloc(sizeof(HuffNode))) == NULL) {
@@ -131,10 +131,10 @@ static int build_tree(int *freqs, BiTree **tree) {
             pqueue_destroy(&pQueue);
             return -1;
         }
-        bitree_init(merge, (void *)huffnode_compare, NULL);
+        bitree_init(merge, (void *) huffnode_compare, NULL);
 
         //提取两个二叉树树, 这两个树的根节点有最小的频率值,提起之后,优先级队列中就不存在这两棵树了
-        if (pqueue_extract(&pQueue, (void **) (&left )) != 0 ||
+        if (pqueue_extract(&pQueue, (void **) (&left)) != 0 ||
             pqueue_extract(&pQueue, (void **) (&right)) != 0) {
             pqueue_destroy(&pQueue);
             free(merge);
@@ -286,7 +286,7 @@ int huffman_compress(const unsigned char *original/*in*/,
 
     //写头部信息, 为comp分配大小为一个int型数据的大小加上UCHAR_MAX再加一
     hsize = sizeof(int) + (UCHAR_MAX + 1);  //comp的字节大小
-    if ((comp = (unsigned char *)malloc(hsize)) == NULL) {
+    if ((comp = (unsigned char *) malloc(hsize)) == NULL) {
         return -1;
     }
     //将原始数据的容量大小写入到comp中
@@ -310,7 +310,7 @@ int huffman_compress(const unsigned char *original/*in*/,
                 }
                 comp = temp;
             }
-            
+
             //size不会大于16, short的字节数为2, cpos就是从左起的需要遍历的哈夫曼编码的指定位的索引
             //这个是从高位开始写入,先获取最高的位的,然后直到最低位
             cpos = (sizeof(short) * 8) - table[c].size + i;
@@ -357,7 +357,7 @@ int huffman_uncompress(const unsigned char *compressed,
     for (c = 0; c <= UCHAR_MAX; ++c) {
         freqs[c] = compressed[sizeof(int) + c];
         if (freqs[c] > 0) {
-            printf("%c,%d ; ",c,freqs[c]);
+            printf("%c,%d ; ", c, freqs[c]);
         }
     }
 
@@ -423,4 +423,180 @@ int huffman_uncompress(const unsigned char *compressed,
     free(tree);
     *original = orig;
     return opos;
+}
+
+/**
+ * @param window: 移动窗口
+ * @param buffer: 前置缓冲区
+ * @param offset: 偏移量
+ * @param next:   前向缓冲区中该短语后面一个字节的指针
+ *
+ * @return 返回找到的短语的长度
+ */
+static int compare_win(const unsigned char *window/*in*/,
+                       const unsigned char *buffer/*in*/,
+                       int *offset/*out*/,
+                       unsigned char *next/*out*/) {
+    int match, longest, i, j, k;
+    *offset = 0;
+    *next = buffer[0];
+
+    for (k = 0; k < LZ77_WINDOW_SIZE; ++k) {
+        i = k;
+        j = 0;
+        match = 0;
+
+        while (i < LZ77_WINDOW_SIZE && j < LZ77_BUFFER_SIZE - 1) {
+            if (window[i] != buffer[j]) {
+                break;
+            }
+            match++;
+            i++;
+            j++;
+        }
+
+        if (match > longest) {  //找到最长的短语,
+            *offset = k;        //该短语在活动窗口中的偏移值
+            longest = match;    //该短语的长度
+            *next = buffer[j];  // 前向缓冲区中该短语后面一个字节的指针
+        }
+    }
+    return longest;   //返回该短语的长度
+}
+
+
+/**
+ * 用lz77算法解压缩缓冲区compressed中的数据,
+ * 假定缓冲区包含的数据由lz77_compress压缩.
+ * 修复后的数据存入缓冲区original中
+ * 由于函数调用者并不知道original需要多大的空间,
+ * 因此要通过lz77_uncompressed函数调用malloc来动态分配存储空间
+ * 当这块空间不在使用时,由调用者调用函数free来释放空间
+ *
+ * 这里滑动窗口大小为8字节,前向缓冲区大小为4字节
+ * 在实际中,滑动窗口典型的大小为4kb(4096字节),前向缓冲区大小通常小于100字节
+ *
+ * @param original: 没有压缩的数据
+ * @param compressed: 压缩之后的数据
+ * @param size:  没有压缩的数据的内存大小,字节单位
+ */
+int lz77_compress(const unsigned char *original/*in*/,
+                  unsigned char **compressed/*out*/,
+                  int size/*in*/) {
+
+    unsigned char window[LZ77_WINDOW_SIZE];   //滑动窗口的数组, 4096个字节
+    unsigned char buffer[LZ77_BUFFER_SIZE];   //前置缓冲区的数组  32个字节
+    unsigned char
+            *comp,    //作为输出的压缩之后数据的缓冲区
+            *temp,    //作为替换comp的临时缓冲区
+            next;     //遍历原始数据时,有pharseToken时,在前置缓冲区中这个pharseToken后面的的一个字节的值
+    int     offset,
+            length,
+            remaining,
+            hsize,
+            ipos,
+            opos,
+            tpos,
+            i,
+            token,
+            tbits;
+
+    *compressed = NULL;
+    hsize = sizeof(int);
+
+
+    //分配4个字节的空间
+    if ((comp = (unsigned char *) malloc(hsize)) == NULL) {
+        return -1;
+    }
+
+    //comp中保存原始数据大小的值
+    memcpy(comp, &size, sizeof(int));
+
+    memset(window, 0, LZ77_WINDOW_SIZE); //初始化window
+    memset(buffer, 0, LZ77_BUFFER_SIZE); //初始化buffer
+
+    //开始加载前向缓冲区
+    ipos = 0;
+    for (i = 0; i < LZ77_BUFFER_SIZE && ipos < size; ++i) {
+        buffer[i] = original[ipos];
+        ipos++;
+    }
+
+    //压缩数据
+    opos = hsize * 8; //如果hsize是4个字节,那么opos的值就是32
+    remaining = size;  //remaining的值为原始数据的大小, 字节单位
+
+    //开始遍历原始数据
+    while (remaining > 0) {
+
+        //遍历活动窗口,在前置缓冲区中寻找短语,如果length大于0,就是有,否则没有
+        //length 是phraseToken的长度,offset是phraseToken在活动窗口中的偏移量,next是前置缓冲区中下一个字节的指针
+        if ((length = compare_win(window, buffer, &offset, &next)) != 0) {
+            //构造一个phraseToken, 一个int型的4个字节
+            token = 0x00000001 << (LZ77_PHRASE_BITS - 1);//int的1,左移26位,应该是 : 0x02000000
+            //26- 1- 12 = 13
+            //将offset放入到token中偏移13位的位置
+            token = token | (offset << (LZ77_PHRASE_BITS - LZ77_TYPE_BITS - LZ77_WINOFF_BITS));
+
+            //26- 1 - 12 - 5 = 8
+            //将phraseToken的长度信息放入到token中偏移8位的位置
+            token = token | (length << (LZ77_PHRASE_BITS - LZ77_TYPE_BITS - LZ77_WINOFF_BITS - LZ77_BUFLEN_BITS));
+
+            //最后8位,放置前置缓冲区中下一个字节的内容
+            token = token | next;
+
+            //遍历数据时获取的token的容量,是26位的就是pharseToken
+            tbits = LZ77_PHRASE_BITS;
+        }else {
+            token = 0x00000000;  //编码一个symbolToken
+            token = token | next;  //将前置缓冲区中的下一个字符放入到token中
+            //遍历数据时获取的token的容量,是9位的就是原始数据
+            tbits = LZ77_SYMBOL_BITS; //set the number of bits in the token
+        }
+
+        token = htonl(token); //确保token是采用大头格式的
+
+        //将token写入到压缩数据的buffer中
+        for (i = 0; i < tbits; ++i) {
+            //遇到opos为8的整数时,则压缩数据的buf就再多分配一个字节的容量
+            if (opos % 8 == 0) {
+                if ((temp = (unsigned char *) realloc(comp, (opos / 8) + 1)) == NULL) {
+                    free(comp);
+                    return -1;
+                }
+                comp = temp;
+            }
+            //获取token中对应位的索引
+            //long是8个字节, 64 - tbits + i;
+            tpos = (sizeof(unsigned long) * 8) - tbits + i;
+            //根据索引获取对应位的状态
+            int status = bit_get((unsigned char *) (&token), tpos);
+            //将这个状态设置到comp中,也就是压缩数据的流中
+            bit_set(comp, opos, status);
+            //压缩数据的流的索引前进一位
+            opos ++;
+        }
+    }
+
+    length++;
+
+    memmove(&window[0], &window[length], LZ77_WINDOW_SIZE - length);
+    memmove(&window[LZ77_WINDOW_SIZE - length], &buffer[0], length);
+    memmove(&buffer[0], &buffer[length], LZ77_BUFFER_SIZE - length);
+
+    for (i = LZ77_BUFFER_SIZE - length; i < LZ77_BUFFER_SIZE && ipos < size; ++i) {
+        buffer[i] = original[ipos];
+        ipos++;
+    }
+    remaining = remaining - length;
+
+    //TODO
+
+    return 0;
+}
+
+int lz77_uncompress(const unsigned char *compressed,
+                    unsigned char **original) {
+    return 0;
 }
