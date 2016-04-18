@@ -440,6 +440,7 @@ static int compare_win(const unsigned char *window/*in*/,
     int match, longest, i, j, k;
     *offset = 0;
     *next = buffer[0];
+    longest = 0;
 
     for (k = 0; k < LZ77_WINDOW_SIZE; ++k) {
         i = k;
@@ -455,7 +456,7 @@ static int compare_win(const unsigned char *window/*in*/,
             j++;
         }
 
-        if (match > longest) {  //找到最长的短语,
+        if (match > 1 && match > longest) {  //找到最长的短语,
             *offset = k;        //该短语在活动窗口中的偏移值
             longest = match;    //该短语的长度
             *next = buffer[j];  // 前向缓冲区中该短语后面一个字节的指针
@@ -498,19 +499,18 @@ int lz77_compress(const unsigned char *original/*in*/,
             opos,
             tpos,
             i,
-            token,
             tbits;
+    unsigned int token = 0;
 
     *compressed = NULL;
-    hsize = sizeof(int);
+    hsize = sizeof(int);  //hsize是4,表示4个字节的大小
 
-
-    //分配4个字节的空间
+    //分配4个字节的空间给comp
     if ((comp = (unsigned char *) malloc(hsize)) == NULL) {
         return -1;
     }
 
-    //comp中保存原始数据大小的值
+    //comp中首先放入原始数据大小的值
     memcpy(comp, &size, sizeof(int));
 
     memset(window, 0, LZ77_WINDOW_SIZE); //初始化window
@@ -524,7 +524,7 @@ int lz77_compress(const unsigned char *original/*in*/,
     }
 
     //压缩数据
-    opos = hsize * 8; //如果hsize是4个字节,那么opos的值就是32
+    opos = hsize * 8; //如果hsize是4个字节,那么opos的值就是32,标识在comp中的下一个可以填充数据的位
     remaining = size;  //remaining的值为原始数据的大小, 字节单位
 
     //开始遍历原始数据
@@ -534,7 +534,7 @@ int lz77_compress(const unsigned char *original/*in*/,
         //length 是phraseToken的长度,offset是phraseToken在活动窗口中的偏移量,next是前置缓冲区中下一个字节的指针
         if ((length = compare_win(window, buffer, &offset, &next)) != 0) {
             //构造一个phraseToken, 一个int型的4个字节
-            token = 0x00000001 << (LZ77_PHRASE_BITS - 1);//int的1,左移26位,应该是 : 0x02000000
+            token = 0x00000001 << (LZ77_PHRASE_BITS - 1);//int的1,左移26-1=25位,应该是 : 0x02000000
             //26- 1- 12 = 13
             //将offset放入到token中偏移13位的位置
             token = token | (offset << (LZ77_PHRASE_BITS - LZ77_TYPE_BITS - LZ77_WINOFF_BITS));
@@ -569,7 +569,7 @@ int lz77_compress(const unsigned char *original/*in*/,
             }
             //获取token中对应位的索引
             //long是8个字节, 64 - tbits + i;
-            tpos = (sizeof(unsigned long) * 8) - tbits + i;
+            tpos = (sizeof(unsigned int) * 8) - tbits + i;
             //根据索引获取对应位的状态
             int status = bit_get((unsigned char *) (&token), tpos);
             //将这个状态设置到comp中,也就是压缩数据的流中
@@ -577,26 +577,167 @@ int lz77_compress(const unsigned char *original/*in*/,
             //压缩数据的流的索引前进一位
             opos ++;
         }
+        //索引从0开始,为了将length计算进入操作中,所以length++
+        length++;
+        //前置窗口向前移动length位,移动的总位数是(LZ77_WINDOW_SIZE - length)这么多位
+        memmove(&window[0], &window[length], LZ77_WINDOW_SIZE - length);
+        //将buffer中从开始到length的位复制到window中(LZ77_WINDOW_SIZE - length)位开始的到结尾的位
+        memmove(&window[LZ77_WINDOW_SIZE - length], &buffer[0], length);
+        //buffer向前移动length位,移动的总位数是(LZ77_BUFFER_SIZE - length)
+        memmove(&buffer[0], &buffer[length], LZ77_BUFFER_SIZE - length);
+
+        //将buffer因为移位操作空出来的位,用原始数据接下来的数据位填充
+        for (i = LZ77_BUFFER_SIZE - length; i < LZ77_BUFFER_SIZE && ipos < size; ++i) {
+            buffer[i] = original[ipos];
+            ipos++;
+        }
+        //对原始数据处理了length位,所以减去,便于while循环条件判断
+        remaining = remaining - length;
     }
-
-    length++;
-
-    memmove(&window[0], &window[length], LZ77_WINDOW_SIZE - length);
-    memmove(&window[LZ77_WINDOW_SIZE - length], &buffer[0], length);
-    memmove(&buffer[0], &buffer[length], LZ77_BUFFER_SIZE - length);
-
-    for (i = LZ77_BUFFER_SIZE - length; i < LZ77_BUFFER_SIZE && ipos < size; ++i) {
-        buffer[i] = original[ipos];
-        ipos++;
-    }
-    remaining = remaining - length;
-
-    //TODO
-
-    return 0;
+    //将结果指针复制给参数传递出去
+    *compressed = comp;
+    //将压缩之后的数据计算成字节数返回
+    return ((opos - 1) / 8) + 1;
 }
 
 int lz77_uncompress(const unsigned char *compressed,
                     unsigned char **original) {
-    return 0;
+
+    unsigned char window[LZ77_WINDOW_SIZE];
+    unsigned char buffer[LZ77_BUFFER_SIZE];
+    unsigned char *orig, *temp, next;
+
+    int offset, length, remaining, hsize, size, ipos, opos, tpos, state, i;
+
+    *original = orig = NULL; //结果数据
+
+    hsize = sizeof(int); //4
+
+    memcpy(&size, compressed, sizeof(int)); //从compressed中前4个字节提取出来放入size中,size就是原始数据大小
+
+    //初始化移动窗口,初始化前置缓冲区
+    memset(window, 0, LZ77_WINDOW_SIZE);
+    memset(buffer, 0, LZ77_BUFFER_SIZE);
+
+    ipos = hsize * 8; //ipos 为位单位, 标识遍历压缩数据的下一位的索引
+    opos = 0;         //
+    remaining = size; // 标识原始数据的大小
+
+    while (remaining > 0) {
+        state = bit_get(compressed, ipos);  //从压缩数据中提取遍历的下一位的状态值
+        ipos++;  //遍历压缩数据的位的索引
+
+        if (state == 1) {  //短语
+            memset(&offset, 0, sizeof(int)); //对offset清零
+            //12位是offset在token中的占位数量,紧跟在标识位之后
+            for (i = 0; i < LZ77_WINOFF_BITS; ++i) {
+                // 32 - 12 = 20 + i;从左往右数,第20位,就是说填充offset的第20位到第31位,共12位的数据
+                tpos = (sizeof(int) * 8) - LZ77_WINOFF_BITS + i;
+                int get = bit_get(compressed, ipos); //从压缩数据中取出紧跟在标识位之后的下一位数据
+                //将这一位数据放入到offset中tpos位
+                bit_set((unsigned char *) (&offset), tpos, get);
+                ipos++;
+            }
+
+            memset(&length, 0, sizeof(int));  //对length清零
+            for (i = 0; i < LZ77_BUFLEN_BITS; ++i) {
+                //32 - 5 + i = 27 + i, 从27位到31位的数据,共5位数据,从左往右数,
+                tpos = (sizeof(int) * 8) - LZ77_BUFLEN_BITS + i;
+                int get = bit_get(compressed, ipos); //取完offset之后,继续取的数据就是length 的数据
+                //将这一位数据放入到length中tpos位
+                bit_set((unsigned char *) (&length), tpos, get);
+                ipos++;
+            }
+            
+            next = 0x00;//对next清零
+            for (i = 0; i < LZ77_NEXT_BITS; ++i) {
+                //从0位到7位,总共8位
+                tpos = (sizeof(unsigned char) * 8) - LZ77_NEXT_BITS + i;
+                int get = bit_get(compressed, ipos); //取完了length的5位之后,剩下的8位就是next字节的数据
+                bit_set((unsigned char *) (&next), tpos, get);//取出的数据按照正常顺序放入到next中
+                ipos++;
+            }
+            //因为编码的时候是采用大头模式,这里需要对获取的数据进行正常化处理
+            offset = ntohl(offset);
+            length = ntohl(length);
+
+            //为结果数据分配内存空间
+            if (opos > 0) {
+                temp = (unsigned char *)realloc(orig, opos + length + 1);
+                if (temp == NULL) {
+                    free(orig);
+                    return -1;
+                }
+                orig = temp;
+            }else {
+                orig = (unsigned char *) malloc(length + 1);
+                if (orig == NULL) {
+                    return -1;
+                }
+            }
+
+            //将解压缩出来的数据放入到结果数据空间中或者追加到结果数据空间中
+            i = 0;
+            while (i < length && remaining > 0) {
+                orig[opos] = window[offset + i]; //将短语的原文从滑动窗口中取出放入到结果数据的空间中
+                opos ++;
+                buffer[i] = window[offset + i];
+                i++;
+                remaining--;
+            }
+
+            //将next的字符放入到解压之后的数据中,以及buffer中
+            if (remaining > 0) {
+                orig[opos] = next;
+                opos ++;
+                buffer[i] = next;
+                remaining--;
+            }
+
+            length++;
+        } else {  //正常数据,没有经过压缩的数据
+            next = 0x00;
+            for (i = 0; i < LZ77_NEXT_BITS; ++i) {
+                tpos = (sizeof(unsigned char) * 8) - LZ77_NEXT_BITS + i;
+                int get = bit_get(compressed, ipos); //从压缩数据中取出下一个字位
+                bit_set((unsigned char *) (&next), tpos, get); //将这个位的数据放入到next中
+                ipos++;
+            }
+
+            //为结果数据分配内存空间
+            if (opos > 0) {
+                temp = (unsigned char *) realloc(orig, opos + 1);
+                if (temp == NULL) {
+                    free(orig);
+                    return -1;
+                }
+                orig = temp;
+            } else {
+                orig = (unsigned char *) malloc(1);
+                if (orig == NULL) {
+                    return -1;
+                }
+            }
+
+            //将next的数据复制给orig的第opos个字节
+            orig[opos] = next;
+            opos++;
+
+            //将复原的字节放入到前置缓冲区中
+            if (remaining > 0) {
+                buffer[0] = next;
+            }
+
+            remaining--;
+            length = 1;
+        }
+
+        //将滑动窗口移动length位,
+        memmove(&window[0], &window[length], LZ77_WINDOW_SIZE - length);
+        //将滑动窗口由于移动length位而空出来的空间用buffer中的length位来填充
+        memmove(&window[LZ77_WINDOW_SIZE - length], &buffer[0], length);
+    }
+
+    *original = orig;
+    return opos;
 }

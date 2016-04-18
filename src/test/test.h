@@ -35,7 +35,10 @@ void sort_radix_sort_test();
 
 void huff_compress_test();
 
-
 void huff_uncompress_test();
+
+void lz77_compress_test();
+
+void lz77_uncompress_test();
 
 #endif //DATA_STRUCTURE_TEST_TEST_H

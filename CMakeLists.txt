@@ -78,6 +78,7 @@ set(SOURCE_FILES
         src/test/graph_dfs_test.c
         src/test/sort_test.c
 		src/test/huff_compress_test.c
+		src/test/lz77_compress_test.c
         src/test/main.c
         src/test/test.h)
 add_executable(data_structure_c ${SOURCE_FILES})

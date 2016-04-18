@@ -19,10 +19,14 @@ int main() {
 //	sort_merge_sort_test();
 //    sort_count_sort_test();
 //    sort_radix_sort_test();
-
-    huff_compress_test();
+//
+//    huff_compress_test();
+//    printf("%s\n", "compress end");
+//    huff_uncompress_test();
+//    printf("%s\n", "uncompress end");
+    lz77_compress_test();
     printf("%s\n", "compress end");
-    huff_uncompress_test();
+    lz77_uncompress_test();
     printf("%s\n", "uncompress end");
     return 0;
 }
