@@ -23,7 +23,7 @@ typedef struct RsaPubKey_{
 /**
  * 定义RSA的私钥的结构体
  */
-typedef  stuct RsaPriKey_{
+typedef  struct RsaPriKey_{
     Huge d;
     Huge n;
 }RsaPriKey;
@@ -69,6 +69,10 @@ typedef  stuct RsaPriKey_{
  *      2.10 将左右分组交换然后开始下一轮,只是在最后一轮中,不用交换左右分组
  *      2.11 全部完成16轮操作后,将最后的右分组和左分组连接起来,组成64位的数据
  *      2.12 将组成的64位数据进行最终置换,得到密文
+ *
+ *  @param plaintext: 必须是64位的8字节的数据
+ *  @param ciphertext: 输出的加密的内容,也是一个64位加密之后的数据
+ *  @param key: 必须是64位的8字节的数据
  */
 void des_encipher(const unsigned char *plaintext,
                   unsigned char *ciphertext,
@@ -82,6 +86,10 @@ void des_encipher(const unsigned char *plaintext,
  * 由调用者负责管理plaintext的存储空间
  * 为了获得较高的效率,des_decipher可以重用之前调用中计算的子密钥.
  * 可以在随后的调用中将NULL传给key, 以此来开启这种功能
+ *
+ *  @param ciphertext: 必须是64位的8字节的数据,待解密的密文
+ *  @param ciphertext: 输出的源的内容,也是一个64位的8字节的明文
+ *  @param key: 必须是64位的8字节的数据
  */
 void des_decipher(const unsigned char *ciphertext,
                   unsigned char *plaintext,

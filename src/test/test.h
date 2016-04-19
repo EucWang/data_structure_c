@@ -41,4 +41,7 @@ void lz77_compress_test();
 
 void lz77_uncompress_test();
 
+
+void cbc_des_test();
+
 #endif //DATA_STRUCTURE_TEST_TEST_H

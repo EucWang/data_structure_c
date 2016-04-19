@@ -24,9 +24,13 @@ int main() {
 //    printf("%s\n", "compress end");
 //    huff_uncompress_test();
 //    printf("%s\n", "uncompress end");
-    lz77_compress_test();
-    printf("%s\n", "compress end");
-    lz77_uncompress_test();
-    printf("%s\n", "uncompress end");
+
+
+//    lz77_compress_test();
+//    printf("%s\n", "compress end");
+//    lz77_uncompress_test();
+//    printf("%s\n", "uncompress end");
+
+    cbc_des_test();
     return 0;
 }
