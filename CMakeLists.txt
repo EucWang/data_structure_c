@@ -4,6 +4,7 @@ project(data_structure_c)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
+		src/lib/encryption/rsa.c
 		src/lib/encryption/cbc_des.c
 		src/lib/encryption/cbc_des.h
 		src/lib/encryption/encrypt.h
