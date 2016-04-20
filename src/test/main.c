@@ -31,6 +31,8 @@ int main() {
 //    lz77_uncompress_test();
 //    printf("%s\n", "uncompress end");
 
-    cbc_des_test();
+//    cbc_des_test();
+
+    test_mini_span_tree_from_graph();
     return 0;
 }

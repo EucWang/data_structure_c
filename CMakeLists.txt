@@ -4,6 +4,7 @@ project(data_structure_c)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
+		src/lib/graph/graph_algorithm.c
 		src/lib/graph/graph_algorithm.h
 		src/lib/encryption/rsa.c
 		src/lib/encryption/cbc_des.c
@@ -86,6 +87,7 @@ set(SOURCE_FILES
 		src/test/huff_compress_test.c
 		src/test/lz77_compress_test.c
 		src/test/cbc_des_test.c
+		src/test/mini_tree_from_graph.c
         src/test/main.c
         src/test/test.h)
 add_executable(data_structure_c ${SOURCE_FILES})

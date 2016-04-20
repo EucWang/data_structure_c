@@ -129,7 +129,7 @@ int graph_is_adjacent(const Graph *graph, const void *data1, const void *data2);
 /**
  * 获取邻接表链表
  */
-#define graph_adjlists(graph) ((graph)->adjlist)
+#define graph_adjlists(graph) ((graph)->adjlists)
 
 /**
  * 获取结点数

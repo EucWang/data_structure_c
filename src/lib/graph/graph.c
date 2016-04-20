@@ -58,7 +58,7 @@ int graph_ins_vertex(Graph *graph, const void *data){
     while (list_hasNext(&(graph->adjlists))) {   //判断是否有可以遍历的数据
         list_moveToNext(&(graph->adjlists));
         list_iterator(&(graph->adjlists),(void **)(&ele_data));   //获取遍历的数据
-        if(graph->match(ele_data->vertex, data)) {   //比较数据,如果相同,则不插入数据,
+        if(graph->match != NULL && graph->match(ele_data->vertex, data)) {   //比较数据,如果相同,则不插入数据,
             printf("%s\n", "graph_ins_vertex() function fail, has same data in the graph, do nothing");
             return 1;
         }
@@ -92,39 +92,33 @@ int graph_ins_vertex(Graph *graph, const void *data){
 int graph_ins_edge(Graph *graph, const void *data1, const void *data2){
     int retval = 0;
     //确保插入的边的两个节点都在图中的结点链表中
-    AdjList *ele_data;
+    AdjList *ele_data,  *data1_adjlist;
     void  * the_data = NULL;
-    list_resetIterator(&(graph->adjlists));  //重置遍历参数
-    while (list_hasNext(&(graph->adjlists))) {   //判断是否有可以遍历的数据
-        list_moveToNext(&(graph->adjlists));
-        list_iterator(&(graph->adjlists),(void **)(&ele_data));   //获取遍历的数据
-        the_data = ele_data->vertex;
-        if(graph->match(the_data, data2)) {   //比较数据,如果相同,退出循环
-            break;
-        }
-    }
-    if (the_data == NULL) {
-        printf("%s\n", "graph_ins_edge function() fail, the data2 not in the graph.");
-        return -1;
-    }
-
-    the_data = NULL;
+    int flag1 = 0, flag2 = 0;
     list_resetIterator(&(graph->adjlists));  //重置遍历参数
     while (list_hasNext(&(graph->adjlists))) {   //判断是否有可以遍历的数据
         list_moveToNext(&(graph->adjlists));
         list_iterator(&(graph->adjlists),(void **)(&ele_data));   //获取遍历的数据
         the_data = ele_data->vertex;
         if(graph->match(the_data, data1)) {   //比较数据,如果相同,退出循环
+            data1_adjlist = ele_data;
+            flag1 ++;
+        }
+        if(graph->match(the_data, data2)) {   //比较数据,如果相同,退出循环
+            flag2 ++;
+        }
+        if (flag1 == 1 && flag2 == 1) {
             break;
         }
     }
-    if (the_data == NULL) {
-        printf("%s\n", "graph_ins_edge function() fail, the data1 not in the graph.");
+
+    if (flag1 != 1 || flag2 != 1) {
+        printf("%s\n", "graph_ins_edge function() fail, the data1 or data2 not in the graph.");
         return -1;
     }
 
     //将data2插入到data1的结点中的set集合中,也就是data1的出度
-    retval = set_insert(&(ele_data->adjacent), data2);
+    retval = set_insert(&(data1_adjlist->adjacent), data2);
     if (retval != 0) {
         printf("%s\n", "graph_ins_edge function() fail, to insert data2 to the set of data1's edges fail");
         return retval;
