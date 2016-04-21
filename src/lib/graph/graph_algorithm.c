@@ -196,3 +196,118 @@ int mst(Graph *graph/*in*/,
 
     return 0;
 }
+
+
+
+/**
+ * 旅行商问题
+ *
+ * @param vertices : vertices中的每个元素必须都是TspVertex类型。
+ *                  TspVert.data来保存与顶点相关的数据，
+ *                  TspVert.x, TspVertex.y  指定顶点的坐标。
+ * tours中保存的顶点会按照路线中顶点的顺序排放。
+ */
+int tsp(List *vertices/*in*/,
+        const TspVertex *start/*in*/,
+        List *tour/*out*/,
+        int (*match)(const void *key1, const void *key2)/*in*/) {
+
+    //初始化tour集合
+    list_init(vertices, NULL);
+
+
+    //found设置为0
+    int found = 0;
+    double x, y;
+    TspVertex *start_in_vertices, *vertex_tmp;
+
+    //遍历集合vertices
+    list_resetIterator(vertex);
+    while (list_hasNext(vertex)) {
+        list_moveToNext(vertex);
+        list_iterator(vertex, (void **)(&vertex_tmp));
+
+        //找到start元素，
+        if (match(start, vertex_tmp)) {
+            if (list_ins_next(tours, list_tail(tours), (void *)vertex_tmp) != 0) {
+            //先将其放入tours集合中，
+                list_destroy(tours);
+                return -1;
+            }
+
+            //然后保存这个顶点, 以及其x，y的值
+            //将其颜色设置为黑色
+            //found设置为1
+            x = vertex_tmp->x;
+            y = vertex_tmp->y;
+            found = 1;
+            vertex_tmp->color = black;
+            start_in_vertices = vertex_tmp;
+        }else {
+            //其他的顶点，颜色设置为白色
+            vertex_tmp->color = white;
+        }
+    }
+
+    //遍历完成
+    //判断found不是1,则销毁tours, 推出函数
+    if (!found) {
+        list_destroy(tours);
+        return -1;
+    }
+
+    int i = 0;
+    double mininum = DBL_MAX;
+    double distance = 0;
+    TspVertex *vertex;
+    //用i表示遍历的大小，i自加直到大于vertices的大小， 循环
+    while(i< list_size(vertices) - 1){
+        //设置mininum为DBL_MAX
+        mininum = DBL_MAX;
+
+        //遍历除了起点之外的所有vertex中的其他顶点
+        //如果顶点的颜色为白色
+        //计算其和保存的x,y的距离
+        //如果距离小于mininum,则保存这个mininum,保存这个顶点
+        //遍历集合vertices
+        list_resetIterator(vertex);
+        while (list_hasNext(vertex)) {
+            list_moveToNext(vertex);
+            list_iterator(vertex, (void **)(&vertex_tmp));
+
+            if (vertex_tmp->color == white) {
+                distance = sqrt(pow(vertex_tmp->x - x, 2.0) + pow(vertex_tmp->y - y, 2.0));
+
+                if (distance < mininum){
+                    mininum = distance;
+                    vertex = vertex_tmp;
+                }
+            }
+        }
+
+        //遍历完成,
+        //设置x,y的值为保存的顶点的x,y的值
+        //设置这个保存的顶点的颜色为黑色
+        //将这个顶点加入到tours的尾部
+        //i++，循环继续
+        x = vertex->x;
+        y = vertex->y;
+        vertex->color = black;
+        if (list_ins_next (tours, list_tail(tours), (void)vertex) != 0){
+            list_destroy(tours);
+            return -1;
+        }
+        i++;
+    }
+
+
+    //循环结束
+    //再次将开始顶点加入到tours的尾部
+    if (list_ins_next (tours, list_tail(tours), (void)start_in_vertices) != 0){
+        list_destroy(tours);
+        return -1;
+    }
+
+
+    return 0;
+}

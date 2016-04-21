@@ -130,11 +130,16 @@ int shortest(Graph *graph,
 
 /**
  * 旅行商问题
+ *
+ * @param vertices : vertices中的每个元素必须都是TspVertex类型。
+ *                  TspVert.data来保存与顶点相关的数据，
+ *                  TspVert.x, TspVertex.y  指定顶点的坐标。
+ * tours中保存的顶点会按照路线中顶点的顺序排放。
  */
-int tsp(List *vertices,
-        const TspVertex *start,
-        List *tour,
-        int (*match)(const void *key1, const void *key2));
+int tsp(List *vertices/*in*/,
+        const TspVertex *start/*in*/,
+        List *tour/*out*/,
+        int (*match)(const void *key1, const void *key2)/*in*/);
 
 
 #endif //DATA_STRUCTURE_C_GRAPH_ALGORITHM_H
