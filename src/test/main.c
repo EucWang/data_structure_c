@@ -36,6 +36,8 @@ int main() {
 //    test_mini_span_tree_from_graph();
 
 
-    test_shortest_tree_from_graph();
+//    test_shortest_tree_from_graph();
+
+    travel_city_problem_test();
     return 0;
 }

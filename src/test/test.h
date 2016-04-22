@@ -50,4 +50,7 @@ void test_mini_span_tree_from_graph();
 
 void test_shortest_tree_from_graph();
 
+
+void travel_city_problem_test();
+
 #endif //DATA_STRUCTURE_TEST_TEST_H

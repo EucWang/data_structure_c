@@ -82,6 +82,8 @@ typedef struct TspVertex_{
     void *data;
     double x, y;
     VertexColor color;
+    int (*match)(const void *key1, const void *key2);
+    void (*destroy)(void *data);
 }TspVertex;
 
 /***************************************************************************************/
@@ -121,6 +123,26 @@ int path_vertex_match(PathVertex *pv1, PathVertex *pv2);
  * 最短路径树需要的结构体的销毁函数
  */
 void path_vertex_destroy(PathVertex *pv);
+
+/***************************************************************************************/
+
+/**
+ * 旅行商问题的结构体TspVertex的构造方法
+ */
+TspVertex *travel_city_problem_vertex_get_init(void *data,
+                                               double x,
+                                               double y,
+                                               int (*match)(const void *key1, const void *key2),
+                                               void (*destroy)(void *data));
+/**
+ * 旅行商问题的结构体TspVertex的匹配函数
+ */
+int travel_city_problem_vertex_match(TspVertex *tv1, TspVertex *tv2);
+
+/**
+ * 旅行商问题的结构体TspVertex的销毁函数
+ */
+void travel_city_problem_vertex_destroy(TspVertex *tv);
 
 /***************************************************************************************/
 /**
@@ -164,6 +186,7 @@ int mst(Graph *graph,
         List *span,
         int (*match)(const void *key1, const void *key2));
 
+/***************************************************************************************/
 /**
  * 最短路径
  *
@@ -189,6 +212,7 @@ int shortest(Graph *graph,
         List *paths,
         int (*match)(const void *key1, const void *key2));
 
+/***************************************************************************************/
 /**
  * 旅行商问题
  *

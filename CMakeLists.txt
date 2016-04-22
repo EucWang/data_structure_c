@@ -89,6 +89,7 @@ set(SOURCE_FILES
 		src/test/cbc_des_test.c
 		src/test/mini_tree_from_graph.c
 		src/test/shortest_tree_from_graph.c
+		src/test/travel_city_problem_test.c
         src/test/main.c
         src/test/test.h)
 add_executable(data_structure_c ${SOURCE_FILES})
