@@ -5,12 +5,14 @@
 #include "graph_algorithm.h"
 #include "../list/list.h"
 #include "graph.h"
+#include "../set/set.h"
 
 #include <float.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 
+/***************************************************************************************/
 MstVertex *mst_vertex_get_init(void *data,
                                double weight,
                                int (*match)(const void *key1, const void *key2),
@@ -50,6 +52,62 @@ void mst_vertex_destroy(MstVertex *mstVertex) {
 
     free(mstVertex);
 }
+
+/***************************************************************************************/
+
+/**
+ * 获取最短路径树需要的结构体
+ */
+PathVertex *path_vertex_get_init(void *data,
+                                 double weight,
+                                 int (*match)(const void *key1, const void *key2),
+                                 void (*destroy)(void *data)) {
+    PathVertex * retval = (PathVertex *)malloc(sizeof(PathVertex));
+    if (retval == NULL) {
+        printf("%s\n", "bfs_vertex_get_init() function fail, call malloc() fail");
+        return NULL;
+    }
+    retval->data = data;
+    retval->color = white;
+    retval->weight = weight;
+    retval->d = DBL_MAX;
+
+    retval->match = match;
+    retval->destroy = destroy;
+
+    return retval;
+}
+
+/**
+ * 最短路径树需要的结构体的匹配函数
+ */
+int path_vertex_match(PathVertex *pv1, PathVertex *pv2){
+    if (pv1->match != NULL) {
+        return pv1->match(pv1->data, pv2->data);
+    } else {
+        return -1;
+    }
+}
+
+/**
+ * 最短路径树需要的结构体的销毁函数
+ */
+void path_vertex_destroy(PathVertex *pv){
+    if (pv == NULL) {
+        return;
+    }
+
+    if (pv->destroy != NULL) {
+        pv->destroy(pv->data);
+    }
+
+    free(pv);
+}
+
+/***************************************************************************************/
+
+
+
 
 
 /**
@@ -194,6 +252,161 @@ int mst(Graph *graph/*in*/,
         }
     }
 
+    return 0;
+}
+
+
+/***************************************************************************************/
+
+/**
+ * 释放从顶点u到顶点v的边
+ *
+ * 理解:
+ * 如果v点的最短路径估值 比  u点的最短路径估值加上weight的值 大
+ * 那么将 u点的最短路径估值加上weight的值 复制给v点的最短路径估值
+ * 同时, u最为v的父结点
+ */
+static  void relax(PathVertex *u, PathVertex *v, double weight) {
+
+    if ( v->d > (u->d + weight)) {
+        v->d = (u->d + weight);
+        v->parent = u;
+    }
+    return;
+}
+
+
+
+/**
+ * 最短路径
+ *
+ *  计算最短路径成功,返回0,否则,返回-1
+ *
+ *  会改变graph
+ *
+ *  graph的每个顶点必须包含PathVertex类型的数据
+ *
+ *  设置PathVertex.weight 的值来指定每个边的权值.
+ *  weight的值由传入graph_ins_edge的参数data2来决定.
+ *
+ *  PathVertex.data来保存与顶点相关的数据
+ *
+ *  计算完成, 最短路径的相关信息将会返回给paths,paths存储PathVertex结构体的列表.
+ *  在paths中, 起始顶点的父结点设置为NULL
+ *  paths的顶点指向graph中实际的顶点,访问paths必须保证graph的内存空间有效.
+ *
+ *
+ */
+int shortest(Graph *graph/*in,out*/,
+             const PathVertex *start/*in*/,
+             List *paths/*out*/,
+             int (*match)(const void *key1, const void *key2 )/*in*/) {
+
+    AdjList *adjList, *adjList_temp;
+    PathVertex *pth_vertex, *pth_vertex_tmp, *adj_vertex;
+    double minimum;
+    int found, i;
+
+    found = 0;
+    //遍历整个graph的所有节点,比对start是否存在于graph中,
+    list_resetIterator(&graph_adjlists(graph));
+    while (list_hasNext(&graph_adjlists(graph))) {
+        list_moveToNext(&graph_adjlists(graph));
+        list_iterator(&graph_adjlists(graph), (void **)&adjList_temp);
+        pth_vertex_tmp = (PathVertex *)adjList_temp->vertex;
+        //如果存在,对graph中的顶点初始化,
+        //颜色设置为白色
+        //估值为0
+        //父结点为NULL
+        //查找状态设置为1,表示找到了
+        if (match((void *) pth_vertex_tmp, (void *) start)) {
+            pth_vertex_tmp->color = white;
+            pth_vertex_tmp->d = 0;
+            pth_vertex_tmp->parent = NULL;
+            found = 1;
+        } else {
+            //同时,将其他不是start的顶点进行初始设置
+            //颜色白色
+            //估值设置为DBL_MAX
+            //parent为NULL
+            pth_vertex_tmp->color = white;
+            pth_vertex_tmp->d = DBL_MAX;
+            pth_vertex_tmp->parent = NULL;
+        }
+    }
+
+    //循环结束,判断查找状态是否为1,否:退出函数
+    if (!found) {
+        return -1;
+    }
+
+    //再次开始循环,遍历所有的graph顶点
+    i = 0;
+    while (i < graph_vcount(graph)) {
+        //最小估值变量设置为DBL_MAX
+        minimum = DBL_MAX;
+        //循环遍历所有的顶点,
+        //找到颜色为白色,并且顶点的最小估值小于最小估值的变量的值
+        list_resetIterator(&graph_adjlists(graph));
+        while (list_hasNext(&graph_adjlists(graph))) {
+            list_moveToNext(&graph_adjlists(graph));
+            list_iterator(&graph_adjlists(graph), (void **)&adjList_temp);
+            pth_vertex_tmp = (PathVertex *)adjList_temp->vertex;
+            if (pth_vertex_tmp->color == white && pth_vertex_tmp->d < minimum) {
+                //重置最小估值变量为新值,
+                //保存这个顶点
+                minimum = pth_vertex_tmp->d;
+                adjList = adjList_temp;
+            }
+        }
+
+        //循环遍历结束,
+        adj_vertex = (PathVertex *)adjList->vertex;
+        //将找到的顶点设置为黑色
+        adj_vertex->color = black;
+        //循环遍历该顶点的所有邻接顶点链表中的顶点
+        list_resetIterator(&(adjList->adjacent));
+        while (list_hasNext(&(adjList->adjacent))) {
+            list_moveToNext(&(adjList->adjacent));
+            list_iterator(&(adjList->adjacent), (void **) (&pth_vertex_tmp));
+
+            //循环遍历graph图中的所有顶点
+            //将邻接顶点链表中的顶点与graph图中的顶点比对
+            //如果匹配,调用relax函数
+            list_resetIterator(&graph_adjlists(graph));
+            while (list_hasNext(&graph_adjlists(graph))) {
+                list_moveToNext(&graph_adjlists(graph));
+                list_iterator(&graph_adjlists(graph), (void **)&adjList_temp);
+                pth_vertex = (PathVertex *) adjList_temp->vertex;
+
+                if (match(pth_vertex_tmp, pth_vertex)) {
+                    //注意3个参数
+                    relax(adj_vertex, pth_vertex, pth_vertex_tmp->weight);
+                }
+            }
+        }
+        i++;
+    }//对该顶点的所有邻接顶点链表中的顶点的遍历结束
+
+    list_init(paths, NULL);
+    //初始化paths集合
+
+    //遍历图中的所有顶点
+    //如果顶点颜色为黑色
+    //如果顶点插入到paths成功
+    list_resetIterator(&graph_adjlists(graph));
+    while (list_hasNext(&graph_adjlists(graph))) {
+        list_moveToNext(&graph_adjlists(graph));
+        list_iterator(&graph_adjlists(graph), (void **)&adjList_temp);
+        pth_vertex_tmp = (PathVertex *) adjList_temp->vertex;
+
+        if (pth_vertex_tmp->color == black) {
+            if (list_ins_next(paths, list_tail(paths), pth_vertex_tmp) != 0) {
+                list_destroy(paths);
+                return -1;
+            }
+        }
+    }
     return 0;
 }
 

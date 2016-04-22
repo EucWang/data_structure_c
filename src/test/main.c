@@ -33,6 +33,9 @@ int main() {
 
 //    cbc_des_test();
 
-    test_mini_span_tree_from_graph();
+//    test_mini_span_tree_from_graph();
+
+
+    test_shortest_tree_from_graph();
     return 0;
 }

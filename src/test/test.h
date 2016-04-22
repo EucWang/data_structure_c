@@ -47,4 +47,7 @@ void cbc_des_test();
 
 void test_mini_span_tree_from_graph();
 
+
+void test_shortest_tree_from_graph();
+
 #endif //DATA_STRUCTURE_TEST_TEST_H

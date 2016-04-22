@@ -45,11 +45,34 @@ typedef struct MstVertex_{
  * 最短路径的问题的顶点的结构体
  */
 typedef  struct PathVertex_{
+
+    /**
+     * 顶点的数据
+     */
     void *data;
+    /**
+     * 到达该顶点的边的权值
+     */
     double weight;
+
+    /**
+     * 状态色值
+     */
     VertexColor color;
+
+    /**
+     * 该顶点的最短路径估值
+     */
     double d;
+
+    /**
+     * 在最短路径树中该顶点的父结点.
+     */
     struct PathVertex_ *parent;
+
+
+    int (*match)(const void *key1, const void *key2);
+    void (*destroy)(void *data);
 }PathVertex;
 
 /**
@@ -61,6 +84,7 @@ typedef struct TspVertex_{
     VertexColor color;
 }TspVertex;
 
+/***************************************************************************************/
 /**
  * 获取最小生成树需要的结构体
  */
@@ -79,6 +103,26 @@ int mst_vertex_match(MstVertex *m1, MstVertex *m2);
  */
 void mst_vertex_destroy(MstVertex *mstVertex);
 
+/***************************************************************************************/
+/**
+ * 获取最短路径树需要的结构体
+ */
+PathVertex *path_vertex_get_init(void *data,
+                               double weight,
+                               int (*match)(const void *key1, const void *key2),
+                               void (*destroy)(void *data));
+
+/**
+ * 最短路径树需要的结构体的匹配函数
+ */
+int path_vertex_match(PathVertex *pv1, PathVertex *pv2);
+
+/**
+ * 最短路径树需要的结构体的销毁函数
+ */
+void path_vertex_destroy(PathVertex *pv);
+
+/***************************************************************************************/
 /**
  * 最小生成树
  *
@@ -122,11 +166,28 @@ int mst(Graph *graph,
 
 /**
  * 最短路径
+ *
+ *  计算最短路径成功,返回0,否则,返回-1
+ *
+ *  会改变graph
+ *
+ *  graph的每个顶点必须包含PathVertex类型的数据
+ *
+ *  设置PathVertex.weight 的值来指定每个边的权值.
+ *  weight的值由传入graph_ins_edge的参数data2来决定.
+ *
+ *  PathVertex.data来保存与顶点相关的数据
+ *
+ *  计算完成, 最短路径的相关信息将会返回给paths,paths存储PathVertex结构体的列表.
+ *  在paths中, 起始顶点的父结点设置为NULL
+ *  paths的顶点指向graph中实际的顶点,访问paths必须保证graph的内存空间有效.
+ *
+ *
  */
 int shortest(Graph *graph,
         const PathVertex *start,
         List *paths,
-        int (*match)(const void *key1, const ));
+        int (*match)(const void *key1, const void *key2));
 
 /**
  * 旅行商问题
