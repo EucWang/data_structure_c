@@ -3,10 +3,10 @@
 //
 
 
-#include "../lib/comprass/compress.h"
+#include "../../lib/comprass/compress.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "test.h"
+#include "../test.h"
 #include <string.h>
 
 /**

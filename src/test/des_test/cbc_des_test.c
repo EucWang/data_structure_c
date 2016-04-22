@@ -3,9 +3,9 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
-#include "test.h"
-#include "../lib/encryption/cbc_des.h"
-#include "../lib/encryption/encrypt.h"
+#include "../test.h"
+#include "../../lib/encryption/cbc_des.h"
+#include "../../lib/encryption/encrypt.h"
 #include <string.h>
 
 void cbc_des_test() {

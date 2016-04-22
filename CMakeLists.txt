@@ -4,6 +4,8 @@ project(data_structure_c)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
+		src/lib/geometry_algorithm/geometry_algorithm.c
+		src/lib/geometry_algorithm/geometry_algorithm.h
 		src/lib/graph/graph_algorithm.c
 		src/lib/graph/graph_algorithm.h
 		src/lib/encryption/rsa.c
@@ -80,16 +82,17 @@ set(SOURCE_FILES
         src/test/bitree_avl_test.c
         src/test/heap_test.c
         src/test/parcels.c
-        src/test/graph_test.c
-        src/test/graph_bfs_test.c
-        src/test/graph_dfs_test.c
+		src/test/graph_test/graph_test.c
+		src/test/graph_test/graph_bfs_test.c
+		src/test/graph_test/graph_dfs_test.c
         src/test/sort_test.c
-		src/test/huff_compress_test.c
-		src/test/lz77_compress_test.c
-		src/test/cbc_des_test.c
-		src/test/mini_tree_from_graph.c
-		src/test/shortest_tree_from_graph.c
-		src/test/travel_city_problem_test.c
+		src/test/compress_test/huff_compress_test.c
+		src/test/compress_test/lz77_compress_test.c
+		src/test/des_test/cbc_des_test.c
+		src/test/graph_test/mini_tree_from_graph.c
+		src/test/graph_test/shortest_tree_from_graph.c
+		src/test/graph_test/travel_city_problem_test.c
+		src/test/geometry_algorithm_test/line_intersect_test.c
         src/test/main.c
         src/test/test.h)
 add_executable(data_structure_c ${SOURCE_FILES})

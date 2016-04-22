@@ -2,10 +2,10 @@
 // Created by wangxn on 2016/4/20.
 //
 
-#include "../lib/graph/graph_algorithm.h"
+#include "../../lib/graph/graph_algorithm.h"
 #include <stdio.h>
-#include "test.h"
-#include "student/student.h"
+#include "../test.h"
+#include "../student/student.h"
 
 
 /**

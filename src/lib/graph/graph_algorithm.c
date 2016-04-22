@@ -14,6 +14,9 @@
 
 
 /***************************************************************************************/
+/**
+ * 最小生成树的结构体的内存分配以及数据初始化
+ */
 MstVertex *mst_vertex_get_init(void *data,
                                double weight,
                                int (*match)(const void *key1, const void *key2),
@@ -34,6 +37,9 @@ MstVertex *mst_vertex_get_init(void *data,
     return retval;
 }
 
+/**
+ * 最小生成树的结构体的匹配方法
+ */
 int mst_vertex_match(MstVertex *m1, MstVertex *m2) {
     if (m1->match != NULL) {
         return m1->match(m1->data, m2->data);
@@ -42,6 +48,9 @@ int mst_vertex_match(MstVertex *m1, MstVertex *m2) {
     }
 }
 
+/**
+ * 最小生成树的结构体的销毁函数
+ */
 void mst_vertex_destroy(MstVertex *mstVertex) {
     if (mstVertex == NULL) {
         return;
@@ -108,7 +117,7 @@ void path_vertex_destroy(PathVertex *pv){
 /***************************************************************************************/
 
 /**
- * 获取最短路径树需要的结构体
+ * 旅行商问题的结构体TspVertex的构造方法
  */
 TspVertex *travel_city_problem_vertex_get_init(void *data,
                                  double x,
@@ -132,7 +141,7 @@ TspVertex *travel_city_problem_vertex_get_init(void *data,
 }
 
 /**
- * 最短路径树需要的结构体的匹配函数
+ * 旅行商问题的结构体TspVertex的匹配函数
  */
 int travel_city_problem_vertex_match(TspVertex *tv1, TspVertex *tv2){
     if (tv1->match != NULL) {
@@ -143,7 +152,7 @@ int travel_city_problem_vertex_match(TspVertex *tv1, TspVertex *tv2){
 }
 
 /**
- * 最短路径树需要的结构体的销毁函数
+ *旅行商问题的结构体TspVertex的销毁函数
  */
 void travel_city_problem_vertex_destroy(TspVertex *tv){
     if (tv == NULL) {

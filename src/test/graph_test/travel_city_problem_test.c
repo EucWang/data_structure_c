@@ -2,17 +2,13 @@
 // Created by wangxn on 2016/4/22.
 //
 
-#include "../lib/graph/graph_algorithm.h"
-#include "../test/student/student.h"
-#include "test.h"
-
+#include "../../lib/graph/graph_algorithm.h"
+#include "../student/student.h"
+#include "../test.h"
 #include <stdio.h>
 
 void travel_city_problem_test() {
-
     List tour;
-
-
     Student s[] = {
             *studn_get_init(1, "a", 0, 22, 11),
             *studn_get_init(2, "b", 0, 22, 11),
@@ -54,6 +50,5 @@ void travel_city_problem_test() {
         student = (Student *) tmp->data;
         printf("%s,", student->name);
     }
-
 }
 

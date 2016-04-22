@@ -38,6 +38,8 @@ int main() {
 
 //    test_shortest_tree_from_graph();
 
-    travel_city_problem_test();
+//    travel_city_problem_test();
+
+     line_intersect_test();
     return 0;
 }

@@ -2,9 +2,9 @@
 // Created by wangxn on 2016/4/8.
 //
 
-#include "../lib/graph/graph_dfs.h"
-#include "./course/course.h"
-#include "test.h"
+#include "../../lib/graph/graph_dfs.h"
+#include "../course/course.h"
+#include "../test.h"
 #include <stdio.h>
 /**
  * 深度优先测试

@@ -3,9 +3,9 @@
 //
 
 #include <stdio.h>
-#include "../lib/graph/graph.h"
-#include "./student/student.h"
-#include "test.h"
+#include "../../lib/graph/graph.h"
+#include "../student/student.h"
+#include "../test.h"
 
 void graph_test() {
     Graph graph;

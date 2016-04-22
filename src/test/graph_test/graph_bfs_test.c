@@ -3,10 +3,10 @@
 //
 
 #include <stdio.h>
-#include "../lib/graph/graph.h"
-#include "../lib/graph/graph_bfs.h"
-#include "./student/student.h"
-#include "test.h"
+#include "../../lib/graph/graph.h"
+#include "../../lib/graph/graph_bfs.h"
+#include "../student/student.h"
+#include "../test.h"
 
 /**
  * 广度优先测试
