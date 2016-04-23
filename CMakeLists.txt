@@ -92,6 +92,7 @@ set(SOURCE_FILES
         src/test/graph_test/shortest_tree_from_graph.c
         src/test/graph_test/travel_city_problem_test.c
         src/test/geometry_algorithm_test/line_intersect_test.c
+        src/test/geometry_algorithm_test/cvxhull_test.c
         src/test/main.c
         src/test/test.h)
 

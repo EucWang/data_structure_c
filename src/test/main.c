@@ -40,6 +40,9 @@ int main() {
 
 //    travel_city_problem_test();
 
-     line_intersect_test();
+//     line_intersect_test();
+
+
+    cvxhull_test();
     return 0;
 }

@@ -12,6 +12,13 @@
  * 2. 凸包
  *          凸包是包含一个点集的最小凸多边形.
  *          如果一个多边形内任意两点之间的连线完全包含在该多边形内,则称这个多边形是凸多边形
+ *          为点集合P创建凸包的一种方法采用Jarvis‘s march方法。
+ *          按照两个部分来建立凸包， 称为右链和左链。
+ *          右链由凸包中位置最低的点（y轴坐标最小）到位置最高的点组成
+ *          如果两个点的高度一样，那么最低点就是那个x轴坐标也最小的点。
+ *          左链由凸包中位置最高的点到位置最低的点组成.
+ *
+ *
  * 3. 球面弧长
  *          要计算出相同平面上从一个点到另一个点之间的弧线长度,这个平面由球心画的虚线到球面上弧线两个端点的虚线确定
  */
@@ -135,6 +142,15 @@ void spoint_destroy(SPoint *p);
  */
 int lint(Point *p1, Point *p2, Point *p3, Point *p4);
 
+
+/**
+ * @brief cvxhull 该函数计算出由P所指定的点集合的凸包。P
+ *                  中的每一个元素都必须是Point类型的。
+ *                  由于cvxhull函数只适用于2维空间，这里忽略掉Point结构中的z坐标值
+ * @param p   点集合，Point是List中元素的类型，
+ * @param polygon 得到的凸包的返回的点集合，polygon中的点其实都在p集合中，必须保证在访问polygon时，p集合中的点的内存空间是有效的
+ * @return 如果计算出凸包，返回0,否则返回-1
+ */
 int cvxhull(const List *p, List *polygon);
 
 void arclen(SPoint p1, SPoint p2, double *length);

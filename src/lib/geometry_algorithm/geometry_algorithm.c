@@ -59,6 +59,16 @@ void spoint_destroy(SPoint *p) {
     free(p);
 }
 
+/**
+ * @brief get_distance 二维情况下，计算两个点之间的距离
+ * @param p1
+ * @param p2
+ * @return 返回2个点的距离
+ */
+static int get_distance(Point *p1, Point *p2){
+    return sqrt(pow(p1->x - p2->x, 2.0) + pow(p1->y - p2->y, 2.0));
+}
+
 
 /**
  * 获得目标点相对于线段(由target_p1,和target_p2组成的)的方位,
@@ -140,3 +150,104 @@ int lint(Point *p1, Point *p2, Point *p3, Point *p4) {
 
     return 0;
 }
+
+
+
+/**
+ * @brief cvxhull 该函数计算出由P所指定的点集合的凸包。P
+ *                  中的每一个元素都必须是Point类型的。
+ *                  由于cvxhull函数只适用于2维空间，这里忽略掉Point结构中的z坐标值
+ * @param p   点集合，Point是List中元素的类型，
+ * @param polygon 得到的凸包的返回的点集合，polygon中的点其实都在p集合中，必须保证在访问polygon时，p集合中的点的内存空间是有效的
+ * @return 如果计算出凸包，返回0,否则返回-1
+ */
+int cvxhull(const List *points, List *polygon) {
+
+    Point *low, *p0, *pc, *pi;
+    List * p = (List *)points;
+
+    //首先找到y轴最低的点，
+    low = (Point *)(list_head(p)->data);
+    list_resetIterator(p);
+    while (list_hasNext(p)) {
+        list_moveToNext(p);
+        list_iterator (p, (void **)(&pi));
+        //如果是y轴相同，取x轴的值最低的点
+        if (pi->y < low->y) {
+            //保存这个点的指针
+            low = pi;
+        } else {
+            if (pi->y == low->y && pi->x < low->x) {
+                low = pi;
+            }
+        }
+    }
+
+    //初始化polygon的List集合
+    list_init (polygon, NULL);
+
+    //设置po的值是最低的那个点
+    p0 = low;
+    //设置count为0
+    int count = 0;
+    int direction = 0;
+    double distance1, distance2;
+    //开始循环
+    do {
+
+        //将p0加入到polygon集合中
+        if (list_ins_next (polygon, list_tail(polygon), p0) != 0) {
+            list_destroy(polygon);
+            return -1;
+        }
+
+        //开始遍历p点集合中的每一个元素
+        //目的是为了获得pc点，这个点的特点是：从P
+        //集合中任意拿出一个点，没有其他点会位于从P0点到pc点的线段的顺时针方向
+        //这个pc点就是下一个p0点，就是放入到polygon中的下一个点
+        list_resetIterator(p);
+        while(list_hasNext(p)) {
+            list_moveToNext(p);
+            list_iterator (p, (void **)(&pi));
+
+            //如果当前元素和P0相同，跳过本轮循环
+            if (pi == p0){
+                continue;
+            }
+
+            //将count++
+            count++;
+
+            //如果count==1,保存当前点为pc，然后跳过本轮循环
+            if (count == 1) {
+                pc = pi;
+                continue;
+            }
+
+            //调用计算公式，计算当前点相对于从pc点到p0点的线段的相对方位。
+            direction = get_direction (p0, pc, pi);
+            //如果当前pi点位于p0到pc线段的顺时针方向，则将pi保存为新的pc点
+            if (direction > 0) {
+                //>0表示顺时针方向，则将当前的点保存为pc点
+                pc = pi;
+            }else if(direction == 0) {
+                //如果==0,表示在同一线段上，
+                //计算当前点pi到p0的距离
+                //计算pc点到p0的距离
+                distance1 = get_distance (pi, p0);
+                distance2 = get_distance (pc, p0);
+                //如果pi到p0的距离比pc点到p0的距离远，则将pi保存为pc点
+                if (distance1 > distance2) {
+                    pc = pi;
+                }
+            }
+        }
+
+        //遍历结束
+        //将获得的pc点设置为p0点
+        p0 = pc;
+    //在p0不是那个最低点时，继续外层循环
+    }while(p0 != low);
+    return 0;
+}
+

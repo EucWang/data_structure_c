@@ -56,4 +56,7 @@ void travel_city_problem_test();
 
 void line_intersect_test();
 
+
+void cvxhull_test();
+
 #endif //DATA_STRUCTURE_TEST_TEST_H
