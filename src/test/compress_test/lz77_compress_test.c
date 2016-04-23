@@ -24,7 +24,7 @@ void lz77_compress_test(){
     long size = ftell(file);
     fseek(file, 0, SEEK_SET);
 
-    printf("file 'size : %d\n", size);
+    printf("file 'size : %ld\n", size);
     const unsigned char *buf = (unsigned char *)malloc(size * sizeof(unsigned char));
     fread((void *)buf, size, sizeof(unsigned char), file);
 

@@ -4,11 +4,10 @@
  *  Created on: 2016年4月9日
  *      Author: wangxinnian
  */
-
+#include <math.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <math.h>
 #include "sort.h"
 
 /**

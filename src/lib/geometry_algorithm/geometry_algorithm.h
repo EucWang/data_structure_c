@@ -18,6 +18,7 @@
 #ifndef DATA_STRUCTURE_C_GEOMETRY_ALGORITHM_H
 #define DATA_STRUCTURE_C_GEOMETRY_ALGORITHM_H
 
+#include <math.h>
 #include "../list/list.h"
 
 #ifdef  PI

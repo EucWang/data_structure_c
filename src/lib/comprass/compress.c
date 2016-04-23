@@ -27,12 +27,12 @@ static int huffnode_compare(HuffNode *node1, HuffNode *node2) {
         return diff;
     }
 }
-
+/*
 static void huffnode_destroy(HuffNode *node) {
     if (node != NULL) {
         free(node);
     }
-}
+}*/
 
 
 /**

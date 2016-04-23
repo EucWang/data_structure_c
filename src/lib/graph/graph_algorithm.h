@@ -8,6 +8,12 @@
 #ifndef DATA_STRUCTURE_C_GRAPH_ALGORITHM_H
 #define DATA_STRUCTURE_C_GRAPH_ALGORITHM_H
 
+
+#include <math.h>
+#include <float.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "../list/list.h"
 #include "graph.h"
 

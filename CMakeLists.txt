@@ -1,26 +1,25 @@
 cmake_minimum_required(VERSION 3.2)
 project(data_structure_c)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-
+#set(CMAKE_C_COMPILER "/usr/bin/gcc-4.8")
 set(SOURCE_FILES
-		src/lib/geometry_algorithm/geometry_algorithm.c
-		src/lib/geometry_algorithm/geometry_algorithm.h
-		src/lib/graph/graph_algorithm.c
-		src/lib/graph/graph_algorithm.h
-		src/lib/encryption/rsa.c
-		src/lib/encryption/cbc_des.c
-		src/lib/encryption/cbc_des.h
-		src/lib/encryption/encrypt.h
-		src/lib/encryption/des.c
-		src/lib/comprass/compress.c
-		src/lib/comprass/compress.h
-		src/lib/comprass/bit_ctrl.c
-		src/lib/comprass/bit_ctrl.h
-		src/lib/numerical_evaluation/numerical_evaluation.h
-		src/lib/numerical_evaluation/numerical_evaluation.c
-		src/lib/sort/sort.c
-		src/lib/sort/sort.h
+        src/lib/geometry_algorithm/geometry_algorithm.c
+        src/lib/geometry_algorithm/geometry_algorithm.h
+        src/lib/graph/graph_algorithm.c
+        src/lib/graph/graph_algorithm.h
+        src/lib/encryption/rsa.c
+        src/lib/encryption/cbc_des.c
+        src/lib/encryption/cbc_des.h
+        src/lib/encryption/encrypt.h
+        src/lib/encryption/des.c
+        src/lib/comprass/compress.c
+        src/lib/comprass/compress.h
+        src/lib/comprass/bit_ctrl.c
+        src/lib/comprass/bit_ctrl.h
+        src/lib/numerical_evaluation/numerical_evaluation.h
+        src/lib/numerical_evaluation/numerical_evaluation.c
+        src/lib/sort/sort.c
+        src/lib/sort/sort.h
         src/lib/graph/graph_dfs.c
         src/lib/graph/graph_dfs.h
         src/lib/graph/graph_bfs.c
@@ -82,17 +81,19 @@ set(SOURCE_FILES
         src/test/bitree_avl_test.c
         src/test/heap_test.c
         src/test/parcels.c
-		src/test/graph_test/graph_test.c
-		src/test/graph_test/graph_bfs_test.c
-		src/test/graph_test/graph_dfs_test.c
+        src/test/graph_test/graph_test.c
+        src/test/graph_test/graph_bfs_test.c
+        src/test/graph_test/graph_dfs_test.c
         src/test/sort_test.c
-		src/test/compress_test/huff_compress_test.c
-		src/test/compress_test/lz77_compress_test.c
-		src/test/des_test/cbc_des_test.c
-		src/test/graph_test/mini_tree_from_graph.c
-		src/test/graph_test/shortest_tree_from_graph.c
-		src/test/graph_test/travel_city_problem_test.c
-		src/test/geometry_algorithm_test/line_intersect_test.c
+        src/test/compress_test/huff_compress_test.c
+        src/test/compress_test/lz77_compress_test.c
+        src/test/des_test/cbc_des_test.c
+        src/test/graph_test/mini_tree_from_graph.c
+        src/test/graph_test/shortest_tree_from_graph.c
+        src/test/graph_test/travel_city_problem_test.c
+        src/test/geometry_algorithm_test/line_intersect_test.c
         src/test/main.c
         src/test/test.h)
+
 add_executable(data_structure_c ${SOURCE_FILES})
+target_link_libraries(data_structure_c m)

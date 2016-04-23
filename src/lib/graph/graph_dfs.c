@@ -57,8 +57,10 @@ void dfs_vertex_destroy(DfsVertex *bfsVertex) {
  */
 static int dfs_main(Graph *graph, AdjList *adjList, List *ordered) {
 
-    AdjList *clr_adjlist, *adj_adjlist;
-    DfsVertex *clr_vertex, *adj_vertex;
+//    AdjList *clr_adjlist,
+            AdjList *adj_adjlist;
+    DfsVertex *clr_vertex;
+//    *adj_vertex;
 
     //将当前节点状态颜色置为灰色
     ((DfsVertex *) adjList->vertex)->color = gray;
@@ -154,5 +156,5 @@ int graph_dfs(Graph *graph, List *ordered) {
             }
         }
     }
-
+    return 0;
 }

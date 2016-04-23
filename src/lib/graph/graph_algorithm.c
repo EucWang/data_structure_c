@@ -2,15 +2,10 @@
 // Created by wangxn on 2016/4/20.
 //
 
+
 #include "graph_algorithm.h"
-#include "../list/list.h"
-#include "graph.h"
 #include "../set/set.h"
 
-#include <float.h>
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
 
 
 /***************************************************************************************/
@@ -229,6 +224,7 @@ int mst(Graph *graph/*in*/,
             mst_vertex->color = white;
             mst_vertex->key = 0;      //起始节点不同于其他节点的地方,key为0
             mst_vertex->parent = NULL;
+            found = 1;
         } else {
         //不相同,设置颜色,键值,父结点
             mst_vertex->color = white;
@@ -529,7 +525,7 @@ int tsp(List *vertices/*in*/,
 
     int i = 0;
     double mininum;
-    double distance = 0;
+    double distance = 0.0;
     //用i表示遍历的大小，i自加直到大于vertices的大小， 循环
     while(i< list_size(vertices) - 1){
         //设置mininum为DBL_MAX
@@ -544,7 +540,8 @@ int tsp(List *vertices/*in*/,
             //如果顶点的颜色为白色,这样排除了那些加入到tour而且设置为黑色的那些顶点了
             if (vertex_tmp->color == white) {
                 //计算其和保存的x,y的距离
-                distance = sqrt(pow(vertex_tmp->x - x, 2.0) + pow(vertex_tmp->y - y, 2.0));
+                double tmp = pow(vertex_tmp->x - x, 2.0) + pow(vertex_tmp->y - y, 2.0);
+                distance = sqrt(tmp);
                 //如果距离小于mininum,则保存这个mininum,保存这个顶点
                 if (distance < mininum){
                     mininum = distance;

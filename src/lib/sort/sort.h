@@ -5,6 +5,7 @@
 #ifndef DATA_STRUCTURE_C_SORT_H
 #define DATA_STRUCTURE_C_SORT_H
 
+#include <math.h>
 
 /**
  * 插入排序

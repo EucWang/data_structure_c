@@ -9,6 +9,8 @@
 extern "C" {
 #endif
 
+#include <math.h>
+
 /**
  * 加密函数
  */
