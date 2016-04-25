@@ -43,6 +43,7 @@ int main() {
 //     line_intersect_test();
 
 
-    cvxhull_test();
+//    cvxhull_test();
+    arclen_test();
     return 0;
 }

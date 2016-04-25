@@ -28,9 +28,7 @@
 #include <math.h>
 #include "../list/list.h"
 
-#ifdef  PI
 #define PI 3.14159
-#endif
 
 /**
  * 取x,y中的最小值或者最大值

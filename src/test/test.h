@@ -59,4 +59,6 @@ void line_intersect_test();
 
 void cvxhull_test();
 
+void arclen_test();
+
 #endif //DATA_STRUCTURE_TEST_TEST_H

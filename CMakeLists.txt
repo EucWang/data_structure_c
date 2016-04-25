@@ -3,6 +3,8 @@ project(data_structure_c)
 
 #set(CMAKE_C_COMPILER "/usr/bin/gcc-4.8")
 set(SOURCE_FILES
+        src/lib/geometry_algorithm/geodist.h
+        src/lib/geometry_algorithm/geodist.c
         src/lib/geometry_algorithm/geometry_algorithm.c
         src/lib/geometry_algorithm/geometry_algorithm.h
         src/lib/graph/graph_algorithm.c
@@ -93,6 +95,7 @@ set(SOURCE_FILES
         src/test/graph_test/travel_city_problem_test.c
         src/test/geometry_algorithm_test/line_intersect_test.c
         src/test/geometry_algorithm_test/cvxhull_test.c
+        src/test/geometry_algorithm_test/arclen_test.c
         src/test/main.c
         src/test/test.h)
 
