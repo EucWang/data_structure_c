@@ -251,3 +251,45 @@ int cvxhull(const List *points, List *polygon) {
     return 0;
 }
 
+/**
+* 从球坐标的点转换成直角坐标的点
+*/
+static void getPointFromSPoint(SPoint *sp, Point *p) {
+   p->x = sp->rho * sin(sp->phi) * cos(sp->theta);
+   p->y = sp->rho * sin(sp->phi) * sin(sp->theta);
+   p->z = sp->rho * cos(sp->phi);
+}
+
+/**
+* 直角坐标系中的两个点
+* 从原点到这里两个点的连线的两个直线
+* 计算这两个直线之间的夹角,
+* 运用反余弦公式
+* 返回的结果是弧度,而不是角度
+*/
+static double getAlphaBetweenPoints(Point *p1, Point *p2, double r) {
+    double dot = p1->x * p2->x + p1->y * p2->y + p1->z * p2->z;
+    //相当于alpha = acos((x1 * x2 + y1 * y2 + z1 * z2)/ (r*r));
+    return acos (dot / pow(r, 2.0));
+}
+
+/**
+ *  球面弧长
+ *  球坐标系
+ * jisuan球面上的点P1和P2之间的弧长.
+ * 每个点都是一个SPoint类型的结构体,
+ * 求得的弧长返回length
+  */
+void arclen(SPoint *sp1, SPoint *sp2, double *length) {
+    Point p1, p2;
+    getPointFromSPoint(sp1, &p1);
+    getPointFromSPoint(sp2, &p2);
+
+    //得到两个点之间的弧度
+    double alpha = getAlphaBetweenPoints(&p1, &p2, sp1->rho);
+    //圆周的长度是是2 * PI * r
+    //所以P1到P2之间的弧的长度是 (alpha / (2 * PI)) * 2 * PI * r
+    //所以就是alpha * r;
+    *length = alpha * sp1->rho;
+    return;
+}

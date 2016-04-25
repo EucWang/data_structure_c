@@ -33,9 +33,8 @@ void test1() {
     point_destroy(p2);
     point_destroy(p3);
     point_destroy(p4);
-
-
 }
+
 void test2() {
     Point *p1 = point_get_init(-4.0, -2.0, 0);
     Point *p2 = point_get_init(1.0, 2.0, 0);

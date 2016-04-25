@@ -153,6 +153,13 @@ int lint(Point *p1, Point *p2, Point *p3, Point *p4);
  */
 int cvxhull(const List *p, List *polygon);
 
-void arclen(SPoint p1, SPoint p2, double *length);
+/**
+ *  球面弧长
+ *  球坐标系
+ * jisuan球面上的点P1和P2之间的弧长.
+ * 每个点都是一个SPoint类型的结构体,
+ * 求得的弧长返回length
+  */
+void arclen(SPoint *sp1, SPoint *sp2, double *length);
 
 #endif //DATA_STRUCTURE_C_GEOMETRY_ALGORITHM_H
