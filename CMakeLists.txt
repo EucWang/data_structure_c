@@ -96,7 +96,7 @@ set(SOURCE_FILES
         src/test/geometry_algorithm_test/line_intersect_test.c
         src/test/geometry_algorithm_test/cvxhull_test.c
         src/test/geometry_algorithm_test/arclen_test.c
-        src/test/main.c
+        src/main/main.c
         src/test/test.h)
 
 add_executable(data_structure_c ${SOURCE_FILES})
