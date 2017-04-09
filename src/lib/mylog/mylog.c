@@ -45,7 +45,7 @@ static int error_GetCurTime(char * strTime){
     return timeLen;
 }
 
-static error_OpenFile(int * pf){
+static int error_OpenFile(int * pf){
     char fileName[1024];
     memset(fileName, 0 , sizeof(fileName));
 

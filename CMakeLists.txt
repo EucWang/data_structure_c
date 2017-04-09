@@ -9,15 +9,15 @@ set(SOURCE_FILES
         src/lib/geometry_algorithm/geometry_algorithm.h
         src/lib/graph/graph_algorithm.c
         src/lib/graph/graph_algorithm.h
-        src/lib/encryption/rsa.c
-        src/lib/encryption/cbc_des.c
-        src/lib/encryption/cbc_des.h
-        src/lib/encryption/encrypt.h
-        src/lib/encryption/des.c
-        src/lib/comprass/compress.c
-        src/lib/comprass/compress.h
-        src/lib/comprass/bit_ctrl.c
-        src/lib/comprass/bit_ctrl.h
+#        src/lib/encryption/rsa.c
+#        src/lib/encryption/cbc_des.c
+#        src/lib/encryption/cbc_des.h
+#        src/lib/encryption/encrypt.h
+#        src/lib/encryption/des.c
+#        src/lib/comprass/compress.c
+#        src/lib/comprass/compress.h
+#        src/lib/comprass/bit_ctrl.c
+#        src/lib/comprass/bit_ctrl.h
         src/lib/numerical_evaluation/numerical_evaluation.h
         src/lib/numerical_evaluation/numerical_evaluation.c
         src/lib/sort/sort.c
@@ -70,8 +70,8 @@ set(SOURCE_FILES
         src/test/student/student.h
         src/test/set_cover_test/set_cover_test.c
         src/test/set_cover_test/set_cover_test.h
-		src/test/socket_transfer/socket_transfer.c
-		src/test/socket_transfer/socket_transfer.h
+#		src/test/socket_transfer/socket_transfer.c
+#		src/test/socket_transfer/socket_transfer.h
 
         src/test/hash_table_linked_test.c
         src/test/hash_table_open_addressed_test.c
@@ -87,9 +87,9 @@ set(SOURCE_FILES
         src/test/graph_test/graph_bfs_test.c
         src/test/graph_test/graph_dfs_test.c
         src/test/sort_test.c
-        src/test/compress_test/huff_compress_test.c
-        src/test/compress_test/lz77_compress_test.c
-        src/test/des_test/cbc_des_test.c
+#        src/test/compress_test/huff_compress_test.c
+#        src/test/compress_test/lz77_compress_test.c
+#        src/test/des_test/cbc_des_test.c
         src/test/graph_test/mini_tree_from_graph.c
         src/test/graph_test/shortest_tree_from_graph.c
         src/test/graph_test/travel_city_problem_test.c
@@ -97,6 +97,9 @@ set(SOURCE_FILES
         src/test/geometry_algorithm_test/cvxhull_test.c
         src/test/geometry_algorithm_test/arclen_test.c
         src/main/main.c
+        src/main/student_manage/student_manage.h
+        src/main/student_manage/student_manage.c
+
         src/test/test.h)
 
 add_executable(data_structure_c ${SOURCE_FILES})
