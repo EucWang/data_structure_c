@@ -16,12 +16,8 @@ static void get_select(List *list);
  * @return
  */
 int student_manage(void) {
-
     List list;   //定义一个列表
-
-
     list_init(&list, NULL);   //初始化列表
-
     while (1) {                //定义一个循环,在循环中显示菜单,获取用户输入
         show_menu();
         get_select(&list);
@@ -103,7 +99,8 @@ void insert(List *list){
     }
 
     Student *s = studn_get_init(id, name,gender, age, 0);  //创建一个学生对象
-    list_ins_next(list, list_tail(list), s);               //将学生对象插入到列表中
+    //list_ins_next(list, list_tail(list), s);               //将学生对象插入到列表中
+	list_add(list, s);
     printf("add student success.\n");
 }
 

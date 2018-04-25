@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.2)
 project(data_structure_c)
 
-#set(CMAKE_C_COMPILER "/usr/bin/gcc-4.8")
+# set(CMAKE_C_COMPILER "/usr/bin/gcc-4.8")
+set(CMAKE_C_COMPILER "D:/ProgramFiles/cygwin64/bin/gcc.exe")
 set(SOURCE_FILES
         src/lib/geometry_algorithm/geodist.h
         src/lib/geometry_algorithm/geodist.c

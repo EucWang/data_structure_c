@@ -8,6 +8,9 @@
 #include <stddef.h>
 #include "list.h"
 
+/**
+* 初始化链表
+*/
 void list_init(List *list, void (*destroy)(void *data)){
     list->size = 0;
     list->destroy = destroy;
@@ -17,6 +20,9 @@ void list_init(List *list, void (*destroy)(void *data)){
     return;
 }
 
+/**
+* 销毁链表
+*/
 void list_destroy(List *list){
     void *data;
     while(list_size(list) > 0){
@@ -29,29 +35,34 @@ void list_destroy(List *list){
     return;
 }
 
+int list_add(List *list, const void *data) {
+	return list_ins_next(list, list_tail(list), data);
+}
+
+int list_add_first(List *list, const void *data) {
+	return list_ins_next(list, NULL, data);
+}
+
 int list_ins_next(List *list, ListElmt *elmt, const void *data){
-    ListElmt *new_elmt;
-    new_elmt = (ListElmt *)malloc(sizeof(ListElmt));
+    ListElmt *new_elmt;                               //声明一个新的链表元素
+    new_elmt = (ListElmt *)malloc(sizeof(ListElmt));  //为这个新链表元素分配空间
     if(new_elmt == NULL){
     	printf("list_ins_next malloc err\n");
-        return -1;               //分配的内存为NULL,则返回
+        return -1;                                    //分配的内存为NULL,则返回
     }
+    new_elmt->data = (void *)data;                    //为新元素赋值
 
-    new_elmt->data = (void *)data;  //为新元素赋值
-
-    if(elmt == NULL){   //第二个形参为NULL,将新的data数据插入到列表头部
-//    	printf("list_ins_next(): insert to the head\n");
+    if(elmt == NULL){                                 //第二个形参为NULL, 将新的data数据插入到列表头部
         if(list_size(list) == 0){
-            list->tail = new_elmt;
+            list->tail = new_elmt;                    //如果链表为空, 则新链表元素就是 '链表尾'
         }
-
-        new_elmt->next = list->head;
+        new_elmt->next = list->head;                  // 新链表元素 设置为新的 '链表头'代替原来的'链表头'位置
         list->head = new_elmt;
-    }else{            //第二个形参不为NULL,将新的data数据插入到其后面
+    }else{                                           //第二个形参不为NULL,将新的data数据插入到其后面
         if(elmt->next == NULL){
-            list->tail = new_elmt;
+            list->tail = new_elmt;             //如果第二个参数的下一个指针为NULL, 则 设置 '链表尾' 为 新链表元素
         }
-        new_elmt->next = elmt->next;
+        new_elmt->next = elmt->next;          // 将 新链表元素放置在第二个行参后面
         elmt->next = new_elmt;
     }
 
