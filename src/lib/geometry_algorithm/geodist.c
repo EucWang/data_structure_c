@@ -1,3 +1,4 @@
+# pragma warning (disable:4819)
 #include "geodist.h"
 #include "geometry_algorithm.h"
 
@@ -22,7 +23,7 @@ int geodist(double lat1,
             double lat2,
             double lon2,
             double *d) {
-
+                
     if (lat1 < -90.0 || lat1 > 90.0 || lat2 < -90.0 || lat2 > 90.0 ) {
         return -1;
     }

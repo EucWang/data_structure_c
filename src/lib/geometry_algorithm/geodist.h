@@ -1,4 +1,4 @@
-
+# pragma warning (disable:4819)
 #ifndef GEODIST_H
 #define GEODIST_H
 

@@ -1,6 +1,5 @@
-/*
-    单链表的实现
-*/
+# pragma warning (disable:4819)
+/* 单链表的实现 */
 
 #include <stdlib.h>
 #include <string.h>

@@ -26,7 +26,7 @@ typedef struct List_{
  * @param list 需要被初始化的链表的指针
  * @param destroy 销毁数据的方法, 可以为NULL
  */
-void list_init(List *list, void (*destroy)(void *data));
+void list_init(List * list, void (* destroy)(void * data));
 
 /**
 *  销毁链表的方法

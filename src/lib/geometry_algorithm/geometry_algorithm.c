@@ -1,3 +1,4 @@
+# pragma warning (disable:4819)
 //
 // Created by wangxn on 2016/4/22.
 //

@@ -3,8 +3,9 @@
 #include <string.h>
 #include <stddef.h>
 #include <math.h>
-#include "../test/test.h"
-#include "student_manage/student_manage.h"
+#include "../test/leetcode/test6/test6.h"
+// #include "../test/test.h"
+// #include "student_manage/student_manage.h"
 
 
 int main() {
@@ -47,6 +48,7 @@ int main() {
 //    cvxhull_test();
 //    arclen_test();
 
-    student_manage();
+    // student_manage();
+    testArr6();
     return 0;
 }

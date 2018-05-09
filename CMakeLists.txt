@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.2)
 project(data_structure_c)
 
 # set(CMAKE_C_COMPILER "/usr/bin/gcc-4.8")
-set(CMAKE_C_COMPILER "D:/ProgramFiles/cygwin64/bin/gcc.exe")
+#set(CMAKE_C_COMPILER "D:/ProgramFiles/cygwin64/bin/gcc.exe")
 set(SOURCE_FILES
         src/lib/geometry_algorithm/geodist.h
         src/lib/geometry_algorithm/geodist.c
@@ -64,6 +64,8 @@ set(SOURCE_FILES
         src/lib/stack/stack_my.c
         src/lib/str_tool/str_tool.c
         src/lib/str_tool/str_tool.h
+        src/lib/arr_tool/arrTool.c
+        src/lib/arr_tool/arrTool.h
 
         src/test/course/course.c
         src/test/course/course.h
@@ -101,7 +103,9 @@ set(SOURCE_FILES
         src/main/student_manage/student_manage.h
         src/main/student_manage/student_manage.c
 
-        src/test/test.h)
+        src/test/test.h
+        src/test/leetcode/test6/test6.c
+        src/test/leetcode/test6/test6.h)
 
 add_executable(data_structure_c ${SOURCE_FILES})
 target_link_libraries(data_structure_c m)
