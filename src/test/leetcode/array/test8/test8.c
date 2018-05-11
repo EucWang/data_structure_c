@@ -3,7 +3,7 @@
 //
 
 #include <stdio.h>
-#include "../../../lib/arr_tool/arrTool.h"
+#include "../../../../lib/arr_tool/arrTool.h"
 
 /**
  * index of nums is 0, swap it with index+1

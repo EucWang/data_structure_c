@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "../../../lib/arr_tool/arrTool.h"
+#include "../../../../lib/arr_tool/arrTool.h"
 
 bool upgradeOneDigit(int* digits, int index) {
     int tmp = digits[index] + 1;

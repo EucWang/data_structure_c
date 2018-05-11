@@ -3,12 +3,13 @@
 #include <string.h>
 #include <stddef.h>
 #include <math.h>
-//#include "../test/leetcode/test6/test6.h"
-//#include "../test/leetcode/test7/test7.h"
-//#include "../test/leetcode/test8/test8.h"
-//#include "../test/leetcode/test9/test9.h"
-//#include "../test/leetcode/test10/test10.h"
-#include "../test/leetcode/test11/test11.h"
+//#include "../test/leetcode/array/test6/test6.h"
+//#include "../test/leetcode/array/test7/test7.h"
+//#include "../test/leetcode/array/test8/test8.h"
+//#include "../test/leetcode/array/test9/test9.h"
+//#include "../test/leetcode/array/test10/test10.h"
+#include "../test/leetcode/array/test11/test11.h"
+#include "../test/leetcode/string/test1.h"
 // #include "../test/test.h"
 // #include "student_manage/student_manage.h"
 
@@ -59,6 +60,7 @@ int main() {
 //    test8();
 //    test9();
 //    test10();
-    test11();
+//    test11();
+    testString1();
     return 0;
 }
