@@ -105,7 +105,9 @@ set(SOURCE_FILES
 
         src/test/test.h
         src/test/leetcode/test6/test6.c
-        src/test/leetcode/test6/test6.h)
+        src/test/leetcode/test6/test6.h
+        src/test/leetcode/test7/test7.c
+        src/test/leetcode/test7/test7.h src/test/leetcode/test8/test8.h src/test/leetcode/test8/test8.c src/test/leetcode/test9/test9.c src/test/leetcode/test9/test9.h src/test/leetcode/test10/test10.c src/test/leetcode/test10/test10.h src/test/leetcode/test11/test11.c src/test/leetcode/test11/test11.h)
 
 add_executable(data_structure_c ${SOURCE_FILES})
 target_link_libraries(data_structure_c m)

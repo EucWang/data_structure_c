@@ -3,7 +3,12 @@
 #include <string.h>
 #include <stddef.h>
 #include <math.h>
-#include "../test/leetcode/test6/test6.h"
+//#include "../test/leetcode/test6/test6.h"
+//#include "../test/leetcode/test7/test7.h"
+//#include "../test/leetcode/test8/test8.h"
+//#include "../test/leetcode/test9/test9.h"
+//#include "../test/leetcode/test10/test10.h"
+#include "../test/leetcode/test11/test11.h"
 // #include "../test/test.h"
 // #include "student_manage/student_manage.h"
 
@@ -49,6 +54,11 @@ int main() {
 //    arclen_test();
 
     // student_manage();
-    testArr6();
+//    testArr6();
+//    test7();
+//    test8();
+//    test9();
+//    test10();
+    test11();
     return 0;
 }
