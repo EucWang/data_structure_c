@@ -7,6 +7,12 @@
 #include <string.h>
 #include <stdlib.h>
 
+/**
+ * 反转字符串
+    请编写一个函数，其功能是将输入的字符串反转过来。
+ * @param s
+ * @return
+ */
 char* reverseString(char* s){
     int len = strlen(s);
     char* retVal = malloc((len + 1) * sizeof(char));
@@ -21,5 +27,6 @@ char* reverseString(char* s){
 
 void testString1(){
     char* s = "hello";
-    printf("\n%s", reverseString(s));
+    printf("\noriginal string is: %s", s);
+    printf("\nreverse string then it's : %s", reverseString(s));
 }

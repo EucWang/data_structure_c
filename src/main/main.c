@@ -8,8 +8,10 @@
 //#include "../test/leetcode/array/test8/test8.h"
 //#include "../test/leetcode/array/test9/test9.h"
 //#include "../test/leetcode/array/test10/test10.h"
-#include "../test/leetcode/array/test11/test11.h"
-#include "../test/leetcode/string/test1.h"
+//#include "../test/leetcode/array/test11/test11.h"
+//#include "../test/leetcode/string/test1/test1.h"
+#include "../test/leetcode/string/test2/testString2.h"
+#include "../test/leetcode/string/test3/testString3.h"
 // #include "../test/test.h"
 // #include "student_manage/student_manage.h"
 
@@ -61,6 +63,6 @@ int main() {
 //    test9();
 //    test10();
 //    test11();
-    testString1();
+    testString3();
     return 0;
 }
