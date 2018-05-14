@@ -40,8 +40,6 @@ int string2Int(char* s){
 //    } else if(!isPositive && retVal > 0){
 //        retVal = 0;
 //    }
-
-
     return retVal;
 }
 

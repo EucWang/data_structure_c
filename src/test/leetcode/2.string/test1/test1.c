@@ -27,6 +27,6 @@ char* reverseString(char* s){
 
 void testString1(){
     char* s = "hello";
-    printf("\noriginal string is: %s", s);
-    printf("\nreverse string then it's : %s", reverseString(s));
+    printf("\noriginal 2.string is: %s", s);
+    printf("\nreverse 2.string then it's : %s", reverseString(s));
 }

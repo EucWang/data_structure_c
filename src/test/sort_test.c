@@ -85,7 +85,7 @@ void sort_quick_sort_test(){
             *studn_get_init(19, "liucuihua", 0, 22, 11)
     };
 
-    printf("%s\n", "get array success");
+    printf("%s\n", "get 1.array success");
 
     quick_sort(s, 39, sizeof(Student), 0, 38, (void *)studn_compare);
 
@@ -151,7 +151,7 @@ void sort_merge_sort_test(){
 			*studn_get_init(19, "liucuihua", 0, 22, 11)
 	};
 
-	printf("%s\n", "get array success");
+	printf("%s\n", "get 1.array success");
 
 	merge_sort(s, 39, sizeof(Student), 0, 38, (void *)studn_compare);
 

@@ -3,15 +3,22 @@
 #include <string.h>
 #include <stddef.h>
 #include <math.h>
-//#include "../test/leetcode/array/test6/test6.h"
-//#include "../test/leetcode/array/test7/test7.h"
-//#include "../test/leetcode/array/test8/test8.h"
-//#include "../test/leetcode/array/test9/test9.h"
-//#include "../test/leetcode/array/test10/test10.h"
-//#include "../test/leetcode/array/test11/test11.h"
-//#include "../test/leetcode/string/test1/test1.h"
-#include "../test/leetcode/string/test2/testString2.h"
-#include "../test/leetcode/string/test3/testString3.h"
+//#include "../test/leetcode/1.array/test6/test6.h"
+//#include "../test/leetcode/1.array/test7/test7.h"
+//#include "../test/leetcode/1.array/test8/test8.h"
+//#include "../test/leetcode/1.array/test9/test9.h"
+//#include "../test/leetcode/1.array/test10/test10.h"
+//#include "../test/leetcode/1.array/test11/test11.h"
+//#include "../test/leetcode/2.string/test1/test1.h"
+//#include "../test/leetcode/2.string/test2/testString2.h"
+//#include "../test/leetcode/2.string/test3/testString3.h"
+//#include "../test/leetcode/2.string/test4/testString4.h"
+//#include "../test/leetcode/2.string/test5/testString5.h"
+//#include "../test/leetcode/2.string/test6/testString6.h"
+//#include "../test/leetcode/2.string/test7/testString7.h"
+//#include "../test/leetcode/2.string/test8/testString8.h"
+//#include "../test/leetcode/2.string/test9/testString9.h"
+#include "../test/leetcode/2.string/test9/testString9.h"
 // #include "../test/test.h"
 // #include "student_manage/student_manage.h"
 
@@ -63,6 +70,6 @@ int main() {
 //    test9();
 //    test10();
 //    test11();
-    testString3();
+    testString9();
     return 0;
 }
