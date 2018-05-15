@@ -1,8 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stddef.h>
-#include <math.h>
+//#include <stdio.h>
+//#include <stdlib.h>
+//#include <string.h>
+//#include <stddef.h>
+//#include <math.h>
 //#include "../test/leetcode/1.array/test6/test6.h"
 //#include "../test/leetcode/1.array/test7/test7.h"
 //#include "../test/leetcode/1.array/test8/test8.h"
@@ -18,7 +18,8 @@
 //#include "../test/leetcode/2.string/test7/testString7.h"
 //#include "../test/leetcode/2.string/test8/testString8.h"
 //#include "../test/leetcode/2.string/test9/testString9.h"
-#include "../test/leetcode/2.string/test9/testString9.h"
+//#include "../test/leetcode/2.string/test9/testString9.h"
+#include "../test/leetcode/3.list/testSimpleList/testSimpleList.h"
 // #include "../test/test.h"
 // #include "student_manage/student_manage.h"
 
@@ -70,6 +71,8 @@ int main() {
 //    test9();
 //    test10();
 //    test11();
-    testString9();
+//    testString9();
+
+    testSimpleListAdd();
     return 0;
 }

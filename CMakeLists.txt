@@ -117,7 +117,28 @@ set(SOURCE_FILES
         src/test/leetcode/1.array/test11/test11.c
         src/test/leetcode/1.array/test11/test11.h
         src/test/leetcode/2.string/test1/test1.c
-        src/test/leetcode/2.string/test1/test1.h src/test/leetcode/2.string/test2/testString2.c src/test/leetcode/2.string/test2/testString2.h src/test/leetcode/2.string/test3/testString3.c src/test/leetcode/2.string/test3/testString3.h src/test/leetcode/2.string/test4/testString4.c src/test/leetcode/2.string/test4/testString4.h src/test/leetcode/2.string/test5/testString5.c src/test/leetcode/2.string/test5/testString5.h src/test/leetcode/2.string/test6/testString6.c src/test/leetcode/2.string/test6/testString6.h src/test/leetcode/2.string/test7/testString7.c src/test/leetcode/2.string/test7/testString7.h src/test/leetcode/2.string/test8/testString8.c src/test/leetcode/2.string/test8/testString8.h src/test/leetcode/2.string/test9/testString9.c src/test/leetcode/2.string/test9/testString9.h src/test/leetcode/3.list/testList1/testList1.c src/test/leetcode/3.list/testList1/testList1.h src/test/leetcode/3.list/ListNode.h)
+        src/test/leetcode/2.string/test1/test1.h
+        src/test/leetcode/2.string/test2/testString2.c
+        src/test/leetcode/2.string/test2/testString2.h
+        src/test/leetcode/2.string/test3/testString3.c
+        src/test/leetcode/2.string/test3/testString3.h
+        src/test/leetcode/2.string/test4/testString4.c
+        src/test/leetcode/2.string/test4/testString4.h
+        src/test/leetcode/2.string/test5/testString5.c
+        src/test/leetcode/2.string/test5/testString5.h
+        src/test/leetcode/2.string/test6/testString6.c
+        src/test/leetcode/2.string/test6/testString6.h
+        src/test/leetcode/2.string/test7/testString7.c
+        src/test/leetcode/2.string/test7/testString7.h
+        src/test/leetcode/2.string/test8/testString8.c
+        src/test/leetcode/2.string/test8/testString8.h
+        src/test/leetcode/2.string/test9/testString9.c
+        src/test/leetcode/2.string/test9/testString9.h
+        src/test/leetcode/3.list/testList1/testList1.c
+        src/test/leetcode/3.list/testList1/testList1.h
+        src/test/leetcode/3.list/SimpleList.h
+        src/test/leetcode/3.list/SimpleList.c
+        src/test/leetcode/3.list/testSimpleList/testSimpleList.c src/test/leetcode/3.list/testSimpleList/testSimpleList.h)
 
 add_executable(data_structure_c ${SOURCE_FILES})
 target_link_libraries(data_structure_c m)
