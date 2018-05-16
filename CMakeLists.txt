@@ -134,11 +134,10 @@ set(SOURCE_FILES
         src/test/leetcode/2.string/test8/testString8.h
         src/test/leetcode/2.string/test9/testString9.c
         src/test/leetcode/2.string/test9/testString9.h
-        src/test/leetcode/3.list/testList1/testList1.c
-        src/test/leetcode/3.list/testList1/testList1.h
         src/test/leetcode/3.list/SimpleList.h
         src/test/leetcode/3.list/SimpleList.c
-        src/test/leetcode/3.list/testSimpleList/testSimpleList.c src/test/leetcode/3.list/testSimpleList/testSimpleList.h)
+        src/test/leetcode/3.list/testSimpleList/testSimpleList.c
+        src/test/leetcode/3.list/testSimpleList/testSimpleList.h)
 
 add_executable(data_structure_c ${SOURCE_FILES})
 target_link_libraries(data_structure_c m)

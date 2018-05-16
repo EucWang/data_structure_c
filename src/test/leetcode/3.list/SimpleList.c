@@ -3,16 +3,55 @@
 //
 
 #include "SimpleList.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
 
 ListNode* create_node(int val) {
     ListNode* retVal = malloc(sizeof(ListNode));
     retVal->val = val;
     retVal->next = NULL;
+}
+
+
+/**
+ * 获得链表元素个数
+ * @param head 
+ * @return 
+ */
+int size_list(ListNode *head) {
+    int size = 0;
+    ListNode* item;
+    item = head;
+    while (item != NULL) {
+        item = item->next;
+        size++;
+    }
+    return size;
+}
+
+/**
+ * 获得索引index处的ListNode
+ * @param head 
+ * @param index 
+ * @return 
+ */
+ListNode* index_list(ListNode* head, int index) {
+    ListNode* item = head;
+    ListNode* retVal = NULL;
+    int i = 0;
+    while (item != NULL) {
+        if (index == i) {
+            retVal = item;
+            break;
+        }
+
+        item = item->next;
+        i++;
+        
+    }
+
+    return retVal;
 }
 
 /**
@@ -202,3 +241,156 @@ ListNode* reverseList2(ListNode* head) {
 
     return item;
 }
+
+/**
+ * 合并两个有序链表
+    将两个有序链表合并为一个新的有序链表并返回。
+    新链表是通过拼接给定的两个链表的所有节点组成的。
+ * @param l1
+ * @param l2
+ * @return
+ */
+ListNode* mergeTwoLists(ListNode *l1, ListNode *l2) {
+    if (l1 == NULL && l2 == NULL) {
+        return NULL;
+    } else if (l1 == NULL) {
+        return l2;
+    } else if (l2 == NULL) {
+        return l1;
+    }
+
+    ListNode* item1 = l1;
+    ListNode* item2 = l2;
+    ListNode* item = NULL;
+    ListNode* newHead = NULL;
+
+    if (l1->val >= l2->val) {
+        item = l2;
+        item2 = l2->next;
+    } else{
+        item = l1;
+        item1 = l1->next;
+    }
+
+    newHead = item;
+
+    while (true) {  //两个链表都遍历到了尾部
+        if (item1 == NULL && item2 == NULL) {
+            break;
+        }else if (item1 == NULL && item2 != NULL) {
+            item->next = item2;
+            break;
+        } else if (item2 == NULL && item1 != NULL) {
+            item->next = item1;
+            break;
+        } else if(item1 != NULL && item2 != NULL){
+                if (item1->val >= item2->val) {
+                    item->next = item2;
+                    item2 = item2->next;
+                } else if (item1->val < item2->val) {
+                    item->next = item1;
+                    item1 = item1->next;
+                }
+                item = item->next;
+        }
+    }
+
+    return newHead;
+}
+
+
+/**
+ * 回文链表
+    请判断一个链表是否为回文链表。
+    示例 1:
+        输入: 1->2
+        输出: false
+    示例 2:
+        输入: 1->2->2->1
+        输出: true
+    进阶：
+        你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？
+ * @param head
+ * @return
+ */
+bool isListPalindrome(ListNode* head){
+    int size = size_list(head);
+    if (size <= 1) {
+        return true;
+    }
+    int half = size/2 + size%2;
+
+    ListNode *pNode_ = index_list(head, half - 1);  //得到中间节点的前一个节点
+    struct ListNode_ *node_ = pNode_->next;         //得到中间节点
+    pNode_->next = NULL;                            //将List分成2个List
+
+    node_ = reverseList(node_);                             //翻转第二个List
+
+
+    ListNode* item1 = head;
+    ListNode* item2 = node_;
+    while (item2 != NULL) {
+        if(item1->val == item2->val){
+            item1 = item1->next;
+            item2 = item2->next;
+        } else{
+            return false;
+        }
+    }
+    return true;
+}
+
+
+/**
+ * 环形链表
+    给定一个链表，判断链表中是否有环。
+    进阶：
+        你能否不使用额外空间解决此题？
+ * @param head
+ * @return
+ */
+bool hasCycle(ListNode* head) {
+    //第一种实现方式 ,
+    /////////////////////////////////////////////
+    if (head == NULL || head->next == NULL) {
+        return false;
+    }
+//    int index = 0;
+//    int i = 0;
+//    ListNode* item = head;
+//    ListNode* innerItem = head;
+//    while (item != NULL) {
+//        i = 0;
+//        innerItem = head;
+//        if (item->next != NULL) {
+//            while (i < index) {
+//                if (item->next != innerItem){
+//                    innerItem = innerItem->next;
+//                    i++;
+//                } else {
+//                    return true;
+//                }
+//            }
+//        } else{
+//            break;
+//        }
+//
+//        item = item->next;
+//        index++;
+//    }
+//    return false;
+    //第二种实现方式, 优化的方式
+    ////////////////////////////////////////////////////
+    ListNode* fast = head;
+    ListNode* slow = head;
+    while (fast != NULL && fast->next != NULL) {
+        fast = fast->next->next;
+        slow = slow->next;
+        if (slow == fast) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
