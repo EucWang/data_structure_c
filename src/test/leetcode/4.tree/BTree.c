@@ -14,7 +14,7 @@ TreeNode* createBTree(int val){
         printf("\n##### malloc TreeNode fail, memory error. ####\n");
         return NULL;
     }
-    node->val = 0;
+    node->val = val;
     node->left = NULL;
     node->right = NULL;
     return node;
@@ -423,4 +423,50 @@ int** levelOrder(/*in*/TreeNode* root, /*out*/int** columnSizes, /*out*/int* ret
         getValOfTreeAtDepth(root, (retVal + i), nodeCount, i+1);  //获得第i层所有节点的数据
     }
     return retVal;
+}
+
+TreeNode* getChildTree(int* nums, int left, int right) {
+    if (right < left) {
+        return NULL;
+    }else if (right == left) {
+        return createBTree(nums[left]);
+    } else{
+        int middle = left + (right - left + 1)/2;
+
+        TreeNode* child = createBTree(nums[middle]);
+
+        child->left = getChildTree(nums, left, middle - 1);
+        child->right = getChildTree(nums, middle + 1, right);
+
+        return child;
+    }
+}
+
+/**
+ *  将有序数组转换为二叉搜索树 : 将一个按照升序排列的有序数组，转换为一棵高度平衡二叉搜索树。
+    本题中，一个高度平衡二叉树是指一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1。
+    示例:给定有序数组: [-10,-3,0,5,9],
+        一个可能的答案是：[0,-3,9,-10,null,5]，它可以表示下面这个高度平衡二叉搜索树：     0
+                                                                                 / \
+                                                                               -3   9
+                                                                               /   /
+                                                                             -10  5
+ * @param nums
+ * @param numsSize
+ * @return
+ */
+TreeNode* sortedArrayToBST(int* nums, int numsSize) {
+    if (nums == NULL || numsSize <= 0) {
+        return NULL;
+    }
+
+    TreeNode* root;
+    if (numsSize == 1) {
+        root = createBTree(*nums);
+        return root;
+    }
+
+    int left = 0;
+    int right = numsSize -1;
+    return getChildTree(nums, left, right);
 }

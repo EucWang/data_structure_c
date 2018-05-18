@@ -219,20 +219,18 @@ void testLevelOrder3(){
     }
 }
 
-void testLevelOrder4(){
-    int arr[] = {1};
-    TreeNode* root = array2BTree(arr, 1);
+void printTree(TreeNode* root) {
 
     int* a = 0;
     int rowSize = 0;
     int** retArr = levelOrder(root, &a, &rowSize);
-    printf("column size is:\n[");
-    for (int i = 0; i < rowSize; ++i) {
-        printf("%d ", *(a+i));
-    }
-    printf("]\n");
+//    printf("column size is:\n[");
+//    for (int i = 0; i < rowSize; ++i) {
+//        printf("%d ", *(a+i));
+//    }
+//    printf("]\n");
 
-    printf("row size is %d\n", rowSize);
+//    printf("row size is %d\n", rowSize);
 
     for (int j = 0; j < rowSize; ++j) {
         printf("[");
@@ -241,6 +239,12 @@ void testLevelOrder4(){
         }
         printf("]\n");
     }
+}
+
+void testLevelOrder4(){
+    int arr[] = {1};
+    TreeNode* root = array2BTree(arr, 1);
+    printTree(root);
 }
 
 void testSize(){
@@ -284,6 +288,13 @@ void testCountOfTreeAtDepth(){
     printf("count at depth %d is %d\n", 3, count3);
 }
 
+void testSortedArrToBST() {
+
+    int arr[] = {-10, -3, 0, 5, 9};
+    TreeNode* root = sortedArrayToBST(arr, 5);
+    printTree(root);
+}
+
 void testBTree(){
 //    testArr2BTree();
 //    testMaxDepth();
@@ -291,11 +302,13 @@ void testBTree(){
 //    testIsValidBST();
 //    testIsSymmetric();
 
-    testLevelOrder1();
-    testLevelOrder2();
-    testLevelOrder3();
-    testLevelOrder4();
+//    testLevelOrder1();
+//    testLevelOrder2();
+//    testLevelOrder3();
+//    testLevelOrder4();
 
 //    testSize();
 //    testCountOfTreeAtDepth();
+
+    testSortedArrToBST();
 }
