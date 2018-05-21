@@ -21,6 +21,7 @@
 //#include "../test/leetcode/2.string/test9/testString9.h"
 #include "../test/leetcode/3.list/testSimpleList/testSimpleList.h"
 #include "../test/leetcode/4.tree/testBTree.h"
+#include "../test/leetcode/5.sort/testSort.h"
 // #include "../test/test.h"
 // #include "student_manage/student_manage.h"
 
@@ -75,6 +76,7 @@ int main() {
 //    testString9();
 
 //    testSimpleListAdd();
-    testBTree();
+//    testBTree();
+    testSort();
     return 0;
 }
