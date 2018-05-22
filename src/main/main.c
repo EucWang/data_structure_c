@@ -22,6 +22,7 @@
 #include "../test/leetcode/3.list/testSimpleList/testSimpleList.h"
 #include "../test/leetcode/4.tree/testBTree.h"
 #include "../test/leetcode/5.sort/testSort.h"
+#include "../test/leetcode/6.dynamic.programming/testDynamicProgramming.h"
 // #include "../test/test.h"
 // #include "student_manage/student_manage.h"
 
@@ -77,6 +78,8 @@ int main() {
 
 //    testSimpleListAdd();
 //    testBTree();
-    testSort();
+//    testSort();
+
+    testDynamicProgramming();
     return 0;
 }
