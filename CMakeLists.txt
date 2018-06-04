@@ -137,7 +137,7 @@ set(SOURCE_FILES
         src/test/leetcode/3.list/SimpleList.h
         src/test/leetcode/3.list/SimpleList.c
         src/test/leetcode/3.list/testSimpleList/testSimpleList.c
-        src/test/leetcode/3.list/testSimpleList/testSimpleList.h src/test/leetcode/4.tree/BTree.c src/test/leetcode/4.tree/BTree.h src/test/leetcode/4.tree/testBTree.c src/test/leetcode/4.tree/testBTree.h src/test/leetcode/5.sort/testSort.c src/test/leetcode/5.sort/testSort.h src/test/leetcode/6.dynamic.programming/testDynamicProgramming.c src/test/leetcode/6.dynamic.programming/testDynamicProgramming.h src/test/leetcode/7.designIssue/TestDesignIssue.c src/test/leetcode/7.designIssue/TestDesignIssue.h)
+        src/test/leetcode/3.list/testSimpleList/testSimpleList.h src/test/leetcode/4.tree/BTree.c src/test/leetcode/4.tree/BTree.h src/test/leetcode/4.tree/testBTree.c src/test/leetcode/4.tree/testBTree.h src/test/leetcode/5.sort/testSort.c src/test/leetcode/5.sort/testSort.h src/test/leetcode/6.dynamic.programming/testDynamicProgramming.c src/test/leetcode/6.dynamic.programming/testDynamicProgramming.h src/test/leetcode/7.designIssue/TestDesignIssue.c src/test/leetcode/7.designIssue/TestDesignIssue.h src/test/leetcode/8.mathIssue/testMathIssue.c src/test/leetcode/8.mathIssue/testMathIssue.h)
 
 add_executable(data_structure_c ${SOURCE_FILES})
 target_link_libraries(data_structure_c m)
