@@ -61,4 +61,6 @@ void cvxhull_test();
 
 void arclen_test();
 
+void arr2_test();
+
 #endif //DATA_STRUCTURE_TEST_TEST_H

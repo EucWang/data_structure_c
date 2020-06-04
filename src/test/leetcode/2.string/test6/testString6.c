@@ -8,6 +8,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <limits.h>
 
 /**
  * 实现 atoi，将字符串转为整数。

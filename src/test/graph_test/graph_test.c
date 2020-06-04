@@ -11,23 +11,27 @@ void graph_test() {
     Graph graph;
 
     Student s[] = {
-            *studn_get_init(14, "liucuihua", 0, 22, 11),
-            *studn_get_init(15, "liucuihua", 0, 22, 11),
-            *studn_get_init(16, "liucuihua", 0, 22, 11),
-            *studn_get_init(17, "liucuihua", 0, 22, 11),
-            *studn_get_init(18, "liucuihua", 0, 22, 11),
-            *studn_get_init(19, "liucuihua", 0, 22, 11),
-            *studn_get_init(20, "liucuihua", 0, 22, 11),
-            *studn_get_init(21, "liucuihua", 0, 22, 11)
+            *studn_get_init(14, "liucuihua14", 0, 20, 11),
+            *studn_get_init(15, "liucuihua15", 1, 21, 11),
+            *studn_get_init(16, "liucuihua16", 0, 21, 11),
+            *studn_get_init(17, "liucuihua17", 0, 22, 11),
+            *studn_get_init(18, "liucuihua18", 1, 22, 11),
+            *studn_get_init(19, "liucuihua19", 1, 23, 11),
+            *studn_get_init(20, "liucuihua20", 1, 21, 11),
+            *studn_get_init(21, "liucuihua21", 0, 20, 11)
     };
 
     graph_init(&graph, (void *) studn_match, NULL);
-    printf("%s\n", "graph init success");
+    // printf("%s\n", "graph init success");
+    printf("%s\n", "图初始化成功");
+
     int i;
     for (i = 0; i < 8; ++i) {
         graph_ins_vertex(&graph, s + i);
     }
-    printf("%s%d\n", "the graph vertex is :", graph_vcount(&graph));
+    // printf("%s%d\n", "the graph vertex is :", graph_vcount(&graph));
+    printf("%s%d\n", "添加顶点之后， 图中顶点数目是 :", graph_vcount(&graph));
+
 
     graph_ins_edge(&graph, s, s + 1);
     graph_ins_edge(&graph, s, s + 2);
@@ -36,7 +40,8 @@ void graph_test() {
     graph_ins_edge(&graph, s, s + 5);
     graph_ins_edge(&graph, s, s + 6);
 
-    printf("%s%d\n", "the graph edge is :", graph_ecount(&graph));
+    // printf("%s%d\n", "the graph edge is :", graph_ecount(&graph));
+    printf("%s%d\n", "添加边之后，图中边的数目是 :", graph_ecount(&graph));
 
 
     Student *tmp;

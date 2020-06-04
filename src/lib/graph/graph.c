@@ -75,7 +75,7 @@ int graph_ins_vertex(Graph *graph, const void *data){
     set_init(&(adjList->adjacent), graph->match, NULL);
 
     //将新节点插入到节点链表的尾部
-    retval = list_ins_next(&(graph->adjlists), list_tail(&(graph->adjlists)), adjList);
+    retval = list_add(&(graph->adjlists), adjList);
     if (retval != 0) {
         printf("%s\n", "graph_ins_vertex() function fail, call list_ins_next() fail");
         return retval;
@@ -142,7 +142,7 @@ int graph_ins_edge(Graph *graph, const void *data1, const void *data2){
  */
 int graph_rem_vertex(Graph *graph, void **data){
 
-    AdjList *adjList, *temp, *prev;
+    AdjList *graphItem, *temp, *prev;
     ListElmt * prevElmt;
     int found = 0;
 
@@ -150,25 +150,23 @@ int graph_rem_vertex(Graph *graph, void **data){
     list_resetIterator(&(graph->adjlists));
     while (list_hasNext(&(graph->adjlists))) {
         list_moveToNext(&(graph->adjlists));
-        list_iterator(&(graph->adjlists), (void **)(&adjList));
+        list_iterator(&(graph->adjlists), (void **)(&graphItem));
 
-        //在每一个节点的邻接链表中查找data,如果存在任意一个,则退出,
-        if(set_is_member(&(adjList->adjacent),*data)) {
+        //在每一个节点的邻接链表中查找data,如果存在任意一个,则退出
+        if(set_is_member(&(graphItem->adjacent),*data)) {
             printf("%s\n", "graph_rem_vertex() function fail, the data already in other data's adjacency set");
             return -1;
         }
 
         //找到对应的节点
-        if(graph->match(*data, adjList->vertex)) {
-            temp = adjList;
+        if(graph->match(*data, graphItem->vertex)) {
+            temp = graphItem; 
             found = 1;
         }
 
-        //保存对应的节点之前的一个节点
+        //保存对应的节点之前的一个节点， 用于从邻接链表中移除该节点
         if (!found) {
-            prevElmt = (graph->adjlists).current;
-//            prevElmt = adjList->adjacent.current;
-//            prev = adjList;
+            prevElmt = (graph->adjlists).current; 
         }
     }
 
@@ -185,16 +183,77 @@ int graph_rem_vertex(Graph *graph, void **data){
     }
 
     //从图中的邻接表链表中移除该data, 将移除的data数据传递给adjList
-    if (list_rem_next(&(graph->adjlists), prevElmt, (void **)&adjList) != 0) {
+    if (list_rem_next(&(graph->adjlists), prevElmt, (void **)&graphItem) != 0) {
         printf("%s\n", "graph_rem_vertex() function fail, call list_rem_next() fail");
         return -1;
     }
 
-    *data = adjList->vertex;  //将图中节点中的数据传递给data
-    free(adjList);            //释放节点的内存空间
+    *data = graphItem->vertex;  //将图中节点中的数据传递给data
+    free(graphItem);            //释放节点的内存空间
     graph->vcount--;         //vcount字段值修改
     return 0;
 }
+
+/**
+ *  删除顶点，附带删除该顶点的所有入度关系， 
+ *  即也删除到该顶点的关系
+ */
+int graph_rem_vertex_with_edges(Graph *graph, void **data){
+
+    AdjList *graphItem, *temp, *prev;
+    ListElmt * prevElmt;
+    int found = 0;
+
+    //遍历图的所有节点,
+    list_resetIterator(&(graph->adjlists));
+    while (list_hasNext(&(graph->adjlists))) {
+        list_moveToNext(&(graph->adjlists));
+        list_iterator(&(graph->adjlists), (void **)(&graphItem));
+
+        //在每一个节点的邻接链表中查找data,如果存在,则删除之
+        if(set_is_member(&(graphItem->adjacent),*data)) {
+            set_remove(&(graphItem->adjacent), *data);
+        }
+
+        //找到对应的节点
+        if(graph->match(*data, graphItem->vertex)) {
+            temp = graphItem; 
+            found = 1;
+        }
+
+        //保存对应的节点之前的一个节点， 用于从邻接链表中移除该节点
+        if (!found) {
+            prevElmt = (graph->adjlists).current; 
+//            prevElmt = adjList->adjacent.current;
+//            prev = adjList;
+        }
+    }
+
+    //如果没有在图中找到对应的节点, 退出
+    if (!found) {
+        printf("%s\n", "graph_rem_vertex() function fail, do not found the data in the graph");
+        return -1;
+    }
+
+    //如果图中对应的节点的邻接链表有内容,则这个节点不能移除,退出
+    if (set_size(&(temp->adjacent)) > 0) {
+        // printf("%s\n", "graph_rem_vertex() function fail, the data in graph has adjacency set, can not remove");
+        // return -1;
+        set_destroy(&(temp->adjacent));
+    }
+
+    //从图中的邻接表链表中移除该data, 将移除的data数据传递给adjList
+    if (list_rem_next(&(graph->adjlists), prevElmt, (void **)&graphItem) != 0) {
+        printf("%s\n", "graph_rem_vertex() function fail, call list_rem_next() fail");
+        return -1;
+    }
+
+    *data = graphItem->vertex;  //将图中节点中的数据传递给data
+    free(graphItem);            //释放节点的内存空间
+    graph->vcount--;         //vcount字段值修改
+    return 0;
+}
+
 
 /**
  * 移除边,只移除边

@@ -15,7 +15,7 @@
  *     ecount:  表示图中边的个数
  *     match:   数据的匹配函数
  *     destroy: 数据的销毁函数
- *     adjlists:  表示临接表链表
+ *     adjlists:  表示临接表链表,表中元素就是AdjList
  */
 
 #include <stdlib.h>
@@ -34,6 +34,8 @@ typedef struct AdjList_{
     
     /**
      * 对应这个结点的临接表链表的集合
+     * 这里直接存储的是结点的原始数据的指针
+     * 是否有必要对边也做下封装？
      */
     Set adjacent;    
 }AdjList;
@@ -57,7 +59,7 @@ typedef struct Graph_{
     /**
      * 邻接表链表集合
      */
-    List adjlists;
+    List adjlists;  //链表中存储的元素是AdjList
 }Graph;
 
 /**
@@ -93,14 +95,27 @@ int graph_ins_vertex(Graph *graph, const void *data);
 int graph_ins_edge(Graph *graph, const void *data1, const void *data2);
 
 /**
- * 移除结点, 同时移除结点的所有边
+ * 移除结点, 只能删除孤立的节点, 即该节点没有出度到其他节点的边,其他节点也没有出度到该节点的边
  * 将一个AdjList结构体从邻接表结构链表中移除
  * 首先确保该顶点不存在于任何邻接表中,
  * 但顶点要存在与邻接表结构链表里,且该顶点的邻接表为空
  * 然后调用list_rem_next从邻接表链表中移除合适的AdjList结构体
  * 最后,更新vcount值
+ *
+ * 返回0 , 表示移除成功
+ * 返回-1, 移除失败
  */
 int graph_rem_vertex(Graph *graph, void **data);
+
+/**
+ * 移除结点, 同时移除结点的所有边
+ * 将一个图节点（AdjList结构体）从邻接链表中移除
+ * 首先遍历所有图节点的邻接表，从邻接表中移除，即表示到该节点的通路删除
+ * 然后在图的节点链表中找到该节点，删除该节点的邻接表以及该节点
+ * 然后调用list_rem_next从邻接表链表中移除合适的AdjList结构体
+ * 最后,更新vcount值
+ */
+int graph_rem_vertex_with_edges(Graph *graph, void **data);
 
 /**
  * 移除边,只移除边

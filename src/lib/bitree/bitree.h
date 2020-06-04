@@ -20,10 +20,10 @@ typedef  struct BiTreeNode_{
  * 二叉树的结构体
  */
 typedef struct BiTree_{
-    int size;
-    int (*compare)(const void *key1, const void *key2);
-    void (*destroy)(void *data);
-    BiTreeNode *root;
+    int size;   //所有节点数目
+    int (*compare)(const void *key1, const void *key2);  //节点的比较函数
+    void (*destroy)(void *data);  //节点的销毁函数
+    BiTreeNode *root;      //根节点
 }BiTree;
 
 /**

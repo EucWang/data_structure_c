@@ -8,6 +8,7 @@
 //#include <time.h>
 #include <stdio.h>
 #include <time.h>
+#include <limits.h>
 
 typedef struct {
     int* nums;

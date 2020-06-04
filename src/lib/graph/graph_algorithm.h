@@ -21,7 +21,8 @@
  * 定义最小生成树的顶点的结构体
  */
 typedef struct MstVertex_{
-    void *data;
+
+    void *data; 
 
     /**
      * 权重
@@ -170,7 +171,6 @@ void travel_city_problem_vertex_destroy(TspVertex *tv);
  *      在图中所有的白色顶点中,选择键值最小的顶点u作为起始顶点,并标记其为黑色
  *      遍历与起始顶点的所有顶点v,设置v的键值为边(u,v)的权值,同时将u设置为v的父结点,并设置为黑色
  *
- *
  * 为一个无方向的带权图graph计算最小生成树.
  * 最小生成树从顶点start开始计算
  * 此操作会改变graph,
@@ -186,6 +186,11 @@ void travel_city_problem_vertex_destroy(TspVertex *tv);
  * 其他每个顶点的parent成员都指向span中位于该顶点之前的那个顶点.
  * 访问span中的顶点,graph中的内存空间必须有效.
  *
+ *
+ * 第二种算法  克鲁斯卡尔算法
+ * 1. 在边的集合中查找最小权重的边，加入到 最终集合中，
+ * 2. 重复步骤1， 如果产生回路，放弃这条边； (设边的数量m, 点的数量的数量为n， 如果m = n -1， 即没有产生回路)
+ * 3. 重复1，2步骤
  */
 int mst(Graph *graph,
         const MstVertex *start,

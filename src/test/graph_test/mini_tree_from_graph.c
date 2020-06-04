@@ -21,48 +21,51 @@ void test_mini_span_tree_from_graph() {
             *studn_get_init(6, "f", 0, 22, 11),
     };
 
+    int * func_match = (int (*)(const void *, const void *))studn_match;
+
     MstVertex m[] = {
-            /*0*/*mst_vertex_get_init((void *)(&s[0]), 0, (int (*)(const void *, const void *))studn_match, NULL),
-            *mst_vertex_get_init((void *)(&s[1]), 0, (int (*)(const void *, const void *))studn_match, NULL),
-            *mst_vertex_get_init((void *)(&s[2]), 0, (int (*)(const void *, const void *))studn_match, NULL),
-            *mst_vertex_get_init((void *)(&s[3]), 0, (int (*)(const void *, const void *))studn_match, NULL),
-            *mst_vertex_get_init((void *)(&s[4]), 0, (int (*)(const void *, const void *))studn_match, NULL),
-            *mst_vertex_get_init((void *)(&s[5]), 0, (int (*)(const void *, const void *))studn_match, NULL),
+            /*0*/*mst_vertex_get_init((void *)(&s[0]), 0, func_match, NULL),
+            *mst_vertex_get_init((void *)(&s[1]), 0, func_match, NULL),
+            *mst_vertex_get_init((void *)(&s[2]), 0, func_match, NULL),
+            *mst_vertex_get_init((void *)(&s[3]), 0, func_match, NULL),
+            *mst_vertex_get_init((void *)(&s[4]), 0, func_match, NULL),
+            *mst_vertex_get_init((void *)(&s[5]), 0, func_match, NULL),
             
             /*a点延伸出去的边的连接节点*/
-            /*6*/*mst_vertex_get_init((void *)(&s[1]), 7, (int (*)(const void *, const void *))studn_match, NULL),
-            *mst_vertex_get_init((void *)(&s[2]), 4, (int (*)(const void *, const void *))studn_match, NULL),
+            /*6*/*mst_vertex_get_init((void *)(&s[1]), 7, func_match, NULL),
+            *mst_vertex_get_init((void *)(&s[2]), 4, func_match, NULL),
             
             /*b点延伸出去的边的连接节点*/
-            /*8*/*mst_vertex_get_init((void *)(&s[0]), 7, (int (*)(const void *, const void *))studn_match, NULL),
-            *mst_vertex_get_init((void *)(&s[2]), 6, (int (*)(const void *, const void *))studn_match, NULL),
-            *mst_vertex_get_init((void *)(&s[3]), 2, (int (*)(const void *, const void *))studn_match, NULL),
-            *mst_vertex_get_init((void *)(&s[5]), 4, (int (*)(const void *, const void *))studn_match, NULL),
+            /*8*/*mst_vertex_get_init((void *)(&s[0]), 7, func_match, NULL),
+            *mst_vertex_get_init((void *)(&s[2]), 6, func_match, NULL),
+            *mst_vertex_get_init((void *)(&s[3]), 2, func_match, NULL),
+            *mst_vertex_get_init((void *)(&s[5]), 4, func_match, NULL),
             
             /*c点延伸出去的边的连接节点*/
-            /*12*/*mst_vertex_get_init((void *)(&s[0]), 4, (int (*)(const void *, const void *))studn_match, NULL),
-            *mst_vertex_get_init((void *)(&s[1]), 6, (int (*)(const void *, const void *))studn_match, NULL),
-            *mst_vertex_get_init((void *)(&s[4]), 9, (int (*)(const void *, const void *))studn_match, NULL),
-            *mst_vertex_get_init((void *)(&s[5]), 8, (int (*)(const void *, const void *))studn_match, NULL),
+            /*12*/*mst_vertex_get_init((void *)(&s[0]), 4, func_match, NULL),
+            *mst_vertex_get_init((void *)(&s[1]), 6, func_match, NULL),
+            *mst_vertex_get_init((void *)(&s[4]), 9, func_match, NULL),
+            *mst_vertex_get_init((void *)(&s[5]), 8, func_match, NULL),
             
             /*d点延伸出去的边的连接节点*/
-            /*16*/*mst_vertex_get_init((void *)(&s[1]), 2, (int (*)(const void *, const void *))studn_match, NULL),
-            *mst_vertex_get_init((void *)(&s[5]), 7, (int (*)(const void *, const void *))studn_match, NULL),
+            /*16*/*mst_vertex_get_init((void *)(&s[1]), 2, func_match, NULL),
+            *mst_vertex_get_init((void *)(&s[5]), 7, func_match, NULL),
             
             
             /*e点延伸出去的边的连接节点*/
-            /*18*/*mst_vertex_get_init((void *)(&s[2]), 9, (int (*)(const void *, const void *))studn_match, NULL),
-            *mst_vertex_get_init((void *)(&s[5]), 1, (int (*)(const void *, const void *))studn_match, NULL),
+            /*18*/*mst_vertex_get_init((void *)(&s[2]), 9, func_match, NULL),
+            *mst_vertex_get_init((void *)(&s[5]), 1, func_match, NULL),
             
             /*f点延伸出去的边的连接节点*/
-            /*20*/*mst_vertex_get_init((void *)(&s[1]), 4, (int (*)(const void *, const void *))studn_match, NULL),
-            *mst_vertex_get_init((void *)(&s[2]), 8, (int (*)(const void *, const void *))studn_match, NULL),
-            *mst_vertex_get_init((void *)(&s[3]), 7, (int (*)(const void *, const void *))studn_match, NULL),
-            *mst_vertex_get_init((void *)(&s[4]), 1, (int (*)(const void *, const void *))studn_match, NULL),
+            /*20*/*mst_vertex_get_init((void *)(&s[1]), 4, func_match, NULL),
+            *mst_vertex_get_init((void *)(&s[2]), 8, func_match, NULL),
+            *mst_vertex_get_init((void *)(&s[3]), 7, func_match, NULL),
+            *mst_vertex_get_init((void *)(&s[4]), 1, func_match, NULL),
     };
 
     Graph graph;
-    graph_init(&graph, (int (*)(const void *, const void *))mst_vertex_match, NULL);
+    int * default_mst_match =  (int (*)(const void *, const void *))mst_vertex_match;
+    graph_init(&graph, default_mst_match, NULL);
     int i;
     //插入所有的节点
     for (i = 0; i < 6; ++i) {
