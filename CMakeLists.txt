@@ -73,19 +73,19 @@ set(SOURCE_FILES
         src/test/student/student.h
         src/test/set_cover_test/set_cover_test.c
         src/test/set_cover_test/set_cover_test.h
-#		src/test/socket_transfer/socket_transfer.c
-#		src/test/socket_transfer/socket_transfer.h
+#src/test/socket_transfer/socket_transfer.c
+#src/test/socket_transfer/socket_transfer.h
         src/test/arr2_test/arr2_test.c
 
-        src/test/hash_table_linked_test.c
-        src/test/hash_table_open_addressed_test.c
+        src/test/table_test/hash_table_linked_test.c
+        src/test/table_test/hash_table_open_addressed_test.c
         src/test/queue_test.c
         src/test/set_test.c
         src/test/set_cover_test.c
         src/test/stack_test.c
-        src/test/bitree_test.c
-        src/test/bitree_avl_test.c
-        src/test/heap_test.c
+        src/test/tree_test/bitree_test.c
+        src/test/tree_test/bitree_avl_test.c
+        src/test/tree_test/heap_test.c
         src/test/parcels.c
         src/test/graph_test/graph_test.c
         src/test/graph_test/graph_bfs_test.c

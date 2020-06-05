@@ -29,7 +29,6 @@ void ** createArr2(int size, int row, int col){
  * @param arr2 , 三重指针，指向二维数组，
  * return void  使用完之后，二维数组的指针会被置为NULL
  */
- **/
 void freeArr2(void *** arr2p, int row) {
     void ** arr2 = *arr2p;
     for (size_t i = 0; i < row; i++)    {

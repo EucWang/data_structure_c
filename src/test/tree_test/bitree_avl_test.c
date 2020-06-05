@@ -2,9 +2,9 @@
 // Created by wangxn on 2016/4/6.
 //
 
-#include "test.h"
-#include "./student/student.h"
-#include "../lib/bitree/bitree_avl.h"
+#include "../test.h"
+#include "../student/student.h"
+#include "../../lib/bitree/bitree_avl.h"
 #include <stdio.h>
 
 static void printBitree(BiTreeNode *node);

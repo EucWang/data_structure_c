@@ -56,6 +56,16 @@ int bitree_ins_left(BiTree *tree, BiTreeNode *node, const void *data);
 int bitree_ins_right(BiTree *tree, BiTreeNode *node, const void *data);
 
 /**
+ * 将数组数据加入到二叉树指定某节点下， 
+ * @param tree  二叉树指针
+ * @param node  二叉树某个节点
+ * @param leftOrRight  是左子树还是右子树 1：左子树； 0： 右子树
+ * @param data 数组数据
+ * @param length 数组长度
+ */ 
+int bitree_from_arr(BiTree *tree, BiTreeNode *node, int leftOrRight, const void ** data, int length);
+
+/**
  * 从二叉树的指定节点的左子节点位置删除数据
  */
 void bitree_rem_left(BiTree *tree, BiTreeNode *node);

@@ -2,9 +2,9 @@
 // Created by wangxn on 2016/4/6.
 //
 
-#include "test.h"
-#include "../lib/bitree/heap.h"
-#include "./student/student.h"
+#include "../test.h"
+#include "../../lib/bitree/heap.h"
+#include ".././student/student.h"
 #include <stdio.h>
 
 void heap_test(){

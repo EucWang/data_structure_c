@@ -5,8 +5,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include  "./student/student.h"
-#include "../lib/hash_table_linked/linked_hash_table.h"
+#include  "../student/student.h"
+#include "../../lib/hash_table_linked/linked_hash_table.h"
 
 int test_linked_hash_table(void) {
     Student *s1 = studn_get_init(1, "zhangfei", 1, 34, 22);

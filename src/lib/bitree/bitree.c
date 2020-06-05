@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "bitree.h"
+#include <math.h>
 
 /**
  * 二叉树的初始化
@@ -31,9 +32,86 @@ void bitree_destroy(BiTree *tree) {
 }
 
 /**
+ * 将数组数据加入到二叉树指定某节点下， 
+ * @param tree  二叉树指针
+ * @param node  二叉树某个节点, node为空，或者node必须是叶子节点
+ * @param leftOrRight  是左子树还是右子树 1：左子树； 0： 右子树
+ * @param data 数组数据， 这里按照 满二叉树形式的数组
+ * @param length 数组长度
+ */ 
+int bitree_from_arr(BiTree *tree, BiTreeNode *node, int leftOrRight, const void ** data, int length) {
+    if (tree == NULL) { return -1; }
+    if(leftOrRight != 0 && leftOrRight != 1) { return -1; }
+    if(data == NULL) { return -1; }
+
+    BiTreeNode *new_node, **postion;
+
+    if (node == NULL) {
+        //插入的node的位置为NULL的情况下,向root节点插入数据,但必须树中没有数据的情况下才可以
+        if (bitree_size(tree) > 0) {
+            printf("%s\n", "bitree_ins_left() args:node == NULL but tree's size not zero. insert fail");
+            return -1;
+        }
+        postion = &tree->root;
+    } else {
+        if (leftOrRight) { 
+            if(bitree_left(node) != NULL) {
+                printf("%s\n", "bitree_ins_left() node's left child node is not null. insert fail");
+                return -1;
+            }
+            postion = &node->left;
+        } else {
+            if(bitree_right(node) != NULL) {
+                printf("%s\n", "bitree_ins_right() node's right child node is not null. insert fail");
+                return -1;
+            }
+            postion = &node->right;
+        }
+    }
+    
+    BiTreeNode ** newNodes = malloc(length * sizeof(void *));
+    int i;
+    for (i = 0; i < length; i++) {
+        newNodes[i] = (BiTreeNode *) malloc(sizeof(BiTreeNode));
+        if (newNodes[i] == NULL) {
+            printf("%s\n", "bitree_ins_left() malloc new memory fail. insert fail");
+            return -1;
+        }
+
+        newNodes[i]->data = (void *)(*(data + i));
+        newNodes[i]->left = NULL;
+        newNodes[i]->right = NULL;
+    }
+
+    //构造数组的子二叉树
+    int deep = 1;
+    int curLineIdx = 0;
+    newNodes[0]->left = newNodes[1];
+    newNodes[0]->right = newNodes[2];
+    for (i = 1; i < length; i++) {
+        if(i >= pow(2, deep+1)) {
+            deep++;
+        }
+        curLineIdx = i - pow(2, deep);
+        int left = pow(2, deep+1) + curLineIdx * 2;
+        int right = pow(2, deep+1) + curLineIdx * 2 + 1;
+        if ( left < length) {
+            newNodes[i]->left = newNodes[left];
+        }            
+        if (right < length) {
+            newNodes[i]->right = newNodes[right];
+        }
+    }
+    
+    *postion = newNodes[0];
+    free(newNodes);
+    tree->size += length;
+}
+
+/**
  * 向二叉树的指定节点的左子节点位置插入数据
  * @param tree:
- * @param node:
+ * @param node: 插入的node的位置为NULL的情况下,向root节点插入数据,但必须树中没有数据的情况下才可以
  * @param data:
  * @return : 返回0: 表示成功, 返回-1: 表示失败
  */

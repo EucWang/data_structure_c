@@ -25,12 +25,17 @@
 #include "../test/leetcode/6.dynamic.programming/testDynamicProgramming.h"
 #include "../test/leetcode/7.designIssue/TestDesignIssue.h"
 #include "../test/leetcode/8.mathIssue/testMathIssue.h"
-// #include "../test/test.h"
+#include "../test/test.h"
 // #include "student_manage/student_manage.h"
 
+#include <math.h>
 
 int main() {
+    // int c = pow(2, 3);
+    // printf("c is %d\n", c);
+    // bitree_test();
 //    bitree_test2();
+   bitree_test3();
 //    bitree_avl_test();
 //    heap_test();
 //    test_parcel();
@@ -86,6 +91,6 @@ int main() {
 //    testDynamicProgramming();
 //    testDesignIssue();
     // testMathIssue();
-    arr2_test();
+    // arr2_test();
     return 0;
 }

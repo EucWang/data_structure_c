@@ -9,6 +9,8 @@ void bitree_test();
 
 void bitree_test2();
 
+void bitree_test3();
+
 void bitree_avl_test();
 
 void heap_test();

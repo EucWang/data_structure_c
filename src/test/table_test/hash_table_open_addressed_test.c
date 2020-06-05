@@ -2,8 +2,8 @@
 // Created by wangxn on 2016/4/1.
 //
 
-#include "./student/student.h"
-#include "../lib/hash_table_open_addressed/open_addr_hash_table.h"
+#include "../student/student.h"
+#include "../../lib/hash_table_open_addressed/open_addr_hash_table.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

@@ -69,7 +69,7 @@ int studn_compare(Student *s1, Student *s2){
 
 
 void studn_print(Student *s){
-    printf("[id:%d,name:%s,gender:%s,age:%d,school_class:%d]\n",
+    printf("[id:%d,\tname:%s,\tgender:%s,\tage:%d,\tschool_class:%d]\n",
            s->_id, s->name, (s->gender == 'f' ||s->gender == 'F') ?"female":"male",s->age,s->school_class);
 }
 
