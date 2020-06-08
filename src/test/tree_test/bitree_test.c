@@ -73,21 +73,32 @@ void bitree_test3(){
     BiTree bitree;
     bitree_init(&bitree, (void *)studn_compare, (void *)studn_destroy);
 
-    Student * s1 = studn_get_init(4,"zhangquandan",1, 32, 10);
-    Student * s2 = studn_get_init(3,"wangdazhui",1, 32, 9);
-    Student * s3 = studn_get_init(1,"zhangsan",1, 32, 9);
-    Student * s4 = studn_get_init(2,"lisi",1, 32, 8);
+    Student * s1 = studn_get_init(1,"zhangquandan",1, 32, 10);
+    Student * s2 = studn_get_init(2,"wangdazhui",1, 32, 9);
+    Student * s3 = studn_get_init(3,"zhangsan",1, 32, 9);
+    Student * s4 = studn_get_init(4,"lisi",1, 32, 8);
     Student * s5 = studn_get_init(5,"zhangfei",1, 32, 9);
     Student * s6 = studn_get_init(6,"liucuihua",0, 22, 11);
     Student * s7 = studn_get_init(7,"miaorenfeng",1, 12, 11);
+    Student * s8 = studn_get_init(8,"miaorenfeng8",1, 12, 11);
+    Student * s9 = studn_get_init(9,"miaorenfeng9",1, 12, 11);
+    Student * s10 = studn_get_init(10,"miaorenfeng10",1, 12, 11);
+    Student * s11 = studn_get_init(11,"miaorenfeng11",1, 12, 11);
+    Student * s12 = studn_get_init(12,"miaorenfeng12",1, 12, 11);
+    Student * s13 = studn_get_init(13,"miaorenfeng13",1, 12, 11);
+    Student * s14 = studn_get_init(14,"miaorenfeng14",1, 12, 11);
+    Student * s15 = studn_get_init(15,"miaorenfeng15",1, 12, 11);
+    Student * s16 = studn_get_init(16,"miaorenfeng16",1, 12, 11);
 
-    Student * s[7] = {s1, s2, s3, s4, s5,s6, s7};
+    Student * s[16] = {s1, s2, s3, s4, s5,s6, s7,s8,s9,s10,s11,s12,s13,s14,s15,s16};
 
-    bitree_from_arr(&bitree, NULL, 1, (const void ** )s, 7);
+    bitree_from_arr(&bitree, NULL, 1, (const void ** )s, 16);
 
     List mlist;
     list_init(&mlist, NULL);
-    preorder(bitree_root(&bitree), &mlist);
+    // preorder(bitree_root(&bitree), &mlist);
+    inorder(bitree_root(&bitree), &mlist);
+    // postorder(bitree_root(&bitree), &mlist);
     printf("%s\n", "preorder() merge bitree, and then show all elements:");
     list_resetIterator(&mlist);
     while(list_hasNext(&mlist)){

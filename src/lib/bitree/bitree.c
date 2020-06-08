@@ -23,6 +23,7 @@ void bitree_init(BiTree *tree, int (*compare)(const void *key1, const void *key2
  * 二叉树的销毁
  */
 void bitree_destroy(BiTree *tree) {
+    printf("bitree_destroy() start runing..\n");
 
     //remove all the nodes from the tree
     bitree_rem_left(tree, NULL);
@@ -89,12 +90,12 @@ int bitree_from_arr(BiTree *tree, BiTreeNode *node, int leftOrRight, const void 
     newNodes[0]->left = newNodes[1];
     newNodes[0]->right = newNodes[2];
     for (i = 1; i < length; i++) {
-        if(i >= pow(2, deep+1)) {
+        if(i+1 >= pow(2, deep+1)) {
             deep++;
         }
-        curLineIdx = i - pow(2, deep);
-        int left = pow(2, deep+1) + curLineIdx * 2;
-        int right = pow(2, deep+1) + curLineIdx * 2 + 1;
+        curLineIdx = i+1 - pow(2, deep);
+        int left = pow(2, deep+1) + curLineIdx * 2 - 1;
+        int right = pow(2, deep+1) + curLineIdx * 2;
         if ( left < length) {
             newNodes[i]->left = newNodes[left];
         }            
@@ -246,7 +247,7 @@ void bitree_rem_left(BiTree *tree, BiTreeNode *node) {
         bitree_rem_right(tree, *position);
 
         if (tree->destroy != NULL) {
-            printf("%s\n", "bitree_rem_left() when remove node from tree, destroy data in node.");
+            // printf("%s\n", "bitree_rem_left() when remove node from tree, destroy data in node.");
             tree->destroy((*position)->data);
         }
 
@@ -281,7 +282,7 @@ void bitree_rem_right(BiTree *tree, BiTreeNode *node) {
         bitree_rem_right(tree, *position);
 
         if (tree->destroy != NULL) {
-            printf("%s\n", "bitree_rem_right() when remove node from tree, destroy data in node.");
+            // printf("%s\n", "bitree_rem_right() when remove node from tree, destroy data in node.");
             tree->destroy((*position)->data);
         }
 

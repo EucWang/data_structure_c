@@ -10,6 +10,7 @@
  * 前序遍历二叉树
  */
 int preorder(const BiTreeNode *node, List *list) {
+	printf("preorder() start running..\n");
 
     if (!bitree_is_eob(node)) {
         if (list_ins_next(list, list_tail(list), bitree_data(node)) != 0) {
@@ -72,13 +73,13 @@ int postorder(const BiTreeNode *node, List *list){
 
 	if(!bitree_is_eob(node)){
 		if(!bitree_is_eob(bitree_left(node))){
-			if(inorder(bitree_left(node), list) != 0){
+			if(postorder(bitree_left(node), list) != 0){
 				printf("%s\n","postorder() left tree order end");
 				return -1;
 			}
 		}
 		if(!bitree_is_eob(bitree_right(node))){
-			if(inorder(bitree_right(node), list) != 0){
+			if(postorder(bitree_right(node), list) != 0){
 				printf("%s\n", "postorder() right tree order end");
 				return -1;
 			}
