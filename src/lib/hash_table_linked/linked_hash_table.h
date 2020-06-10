@@ -42,10 +42,10 @@ typedef struct linked_hash_table_{
 /**
  * @func 对链式哈希表进行初始化, 只有进过初始化的表才能进行其他操作
  * @param lhtable: 需要被初始化的哈希表
- * @param buckers:
- * @param h:
- * @param match:
- * @param destroy:
+ * @param buckers: 初始的大小
+ * @param h:       hash函数
+ * @param match:   比较函数
+ * @param destroy: 元素的自毁函数
  */
 int linked_hash_table_init(Linked_Hash_Table * lhtable,
 							int buckers,

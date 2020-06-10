@@ -35,13 +35,14 @@ int main() {
     // printf("c is %d\n", c);
     // bitree_test();
 //    bitree_test2();
-   bitree_test3();
+//    bitree_test3();
 //    bitree_avl_test();
 //    heap_test();
 //    test_parcel();
 //    graph_test();
 //    graph_bfs_test();
 //    graph_dfs_test();
+    test_linked_hash_table();
 // test_mini_span_tree_from_graph();
 //	sort_insert_sort_test();
 //	sort_quick_sort_test();

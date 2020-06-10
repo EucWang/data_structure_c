@@ -23,26 +23,30 @@ int studn_hash(Student *s){
     char *str = (char *)malloc(len);
     memset(str, 0, len);
     sprintf(str, "%d%s%c%d%d", s->_id, s->name, s->gender,s->age,s->school_class);
-    int hash = 0;
-    int i;
-    for(i = 0; i<len; i++){
-        hash = 31 * hash + str[i];
-    }
+    // int hash = 0;
+    // int i;
+    // for(i = 0; i<len; i++){
+    //     hash = 31 * hash + str[i];
+    // }
 
-//	return PJW_Hash(str, len);
+	int hash = PJW_Hash(str, len);
+    free(str);
+    return hash;
 }
 int studn_hash2(Student *s){
     int len  = 20 + 33 * sizeof(char);
     char *str = (char *)malloc(len);
     memset(str, 0, len);
     sprintf(str, "%d%s%c%d%d", s->_id, s->name, s->gender,s->age,s->school_class);
-    int hash = 0;
-    int i;
-    for(i = 0; i<len; i++){
-        hash = 43 * hash + str[i];
-    }
+    // int hash = 0;
+    // int i;
+    // for(i = 0; i<len; i++){
+    //     hash = 43 * hash + str[i];
+    // }
 
-//	return PJW_Hash(str, len);
+	int hash = PJW_Hash(str, len);
+    free(str);
+    return hash;
 }
 
 void studn_destroy(Student *s){

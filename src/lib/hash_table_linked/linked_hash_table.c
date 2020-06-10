@@ -16,9 +16,10 @@
 /**
  * @func 对链式哈希表进行初始化, 只有进过初始化的表才能进行其他操作
  * @param lhtable: 需要被初始化的哈希表
- * @param h:
- * @param match:
- * @param destroy:
+ * @param buckers: 初始的大小
+ * @param h:       hash函数
+ * @param match:   比较函数
+ * @param destroy: 元素的自毁函数
  */
 int linked_hash_table_init(Linked_Hash_Table * lhtable,
 							int buckets,
@@ -37,14 +38,14 @@ int linked_hash_table_init(Linked_Hash_Table * lhtable,
 
 	int i;
 
-	lhtable->table = (List *)malloc(buckets * sizeof(List));
+	lhtable->table = (List *)malloc(buckets * sizeof(List)); //分配多个链表空间
 	if(lhtable->table == NULL){
 		printf("linked_hash_table_init() err malloc null\n");
 		return -2;
 	}
 
 	for(i = 0 ; i < lhtable->buckets; i++){
-		list_init(&lhtable->table[i], destroy);
+		list_init(&lhtable->table[i], destroy); //多个链表初始化
 	}
 
 	lhtable->buckets = buckets;
@@ -94,7 +95,8 @@ int linked_hash_table_insert(Linked_Hash_Table *lhtable, const void *data){
 	/*hash the key*/
 	bucket = lhtable->h(data) % lhtable->buckets;
 
-	retval = list_ins_next(&(lhtable->table[bucket]), NULL, data);
+	// retval = list_ins_next(&(lhtable->table[bucket]), NULL, data);
+	retval = list_add(&(lhtable->table[bucket]), tmp);
 	if(retval == 0){
 		lhtable->size++;
 	}
@@ -148,7 +150,7 @@ int linked_hash_table_lookup(const Linked_Hash_Table *lhtable, void **data){
 		}
 	}
 
-	printf("linked_hash_table_lookup() donot find the data\n");
+	// printf("linked_hash_table_lookup() donot find the data\n");
 	return -1;
 }
 
