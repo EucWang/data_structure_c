@@ -39,12 +39,12 @@ int linked_hash_table_init(Linked_Hash_Table * lhtable,
 	int i;
 
 	lhtable->table = (List *)malloc(buckets * sizeof(List)); //分配多个链表空间
-	if(lhtable->table == NULL){
+	if(lhtable->table == NULL) {
 		printf("linked_hash_table_init() err malloc null\n");
 		return -2;
 	}
 
-	for(i = 0 ; i < lhtable->buckets; i++){
+	for (i = 0 ; i < lhtable->buckets; i++){
 		list_init(&lhtable->table[i], destroy); //多个链表初始化
 	}
 
@@ -154,3 +154,13 @@ int linked_hash_table_lookup(const Linked_Hash_Table *lhtable, void **data){
 	return -1;
 }
 
+void linked_hash_table_map(Linked_Hash_Table * lhtable, int (*visit)(const void *value)) {
+    int list_size = lhtable->buckets;
+    for (int i = 0; i < list_size; i++) {
+        List *list = &(lhtable->table[i]);
+        ListElmt *elmt;
+        for (elmt = list_head(list); elmt != NULL; elmt = list_next(elmt)) {
+            visit(elmt->data);
+        }
+    }
+}

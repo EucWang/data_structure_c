@@ -65,4 +65,6 @@ void arclen_test();
 
 void arr2_test();
 
+int test_linked_hash_table(void);
+
 #endif //DATA_STRUCTURE_TEST_TEST_H

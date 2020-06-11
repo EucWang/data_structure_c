@@ -79,6 +79,9 @@ int linked_hash_table_remove(Linked_Hash_Table *lhtable, void **data);
  */
 int linked_hash_table_lookup(const Linked_Hash_Table *lhtable, void **data);
 
+
+void linked_hash_table_map(Linked_Hash_Table * lhtable, int (*visit)(const void *value));
+
 /**
  * @function : 获取哈希表的元素的个数
  */
