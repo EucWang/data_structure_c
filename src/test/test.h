@@ -67,4 +67,6 @@ void arr2_test();
 
 int test_linked_hash_table(void);
 
+int test_linked_hash_set(void);
+
 #endif //DATA_STRUCTURE_TEST_TEST_H

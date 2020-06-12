@@ -42,7 +42,8 @@ int main() {
 //    graph_test();
 //    graph_bfs_test();
 //    graph_dfs_test();
-    test_linked_hash_table();
+    // test_linked_hash_table();
+    test_linked_hash_set();
 // test_mini_span_tree_from_graph();
 //	sort_insert_sort_test();
 //	sort_quick_sort_test();

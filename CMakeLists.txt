@@ -44,6 +44,8 @@ set(SOURCE_FILES
         src/lib/des/des.h
         src/lib/hash_table_linked/linked_hash_table.c
         src/lib/hash_table_linked/linked_hash_table.h
+        src/lib/hash_table_linked/linked_hash_set.c
+        src/lib/hash_table_linked/linked_hash_set.h
         src/lib/hash_table_open_addressed/open_addr_hash_table.h
         src/lib/hash_table_open_addressed/open_addr_hash_table.c
         src/lib/list/list.h

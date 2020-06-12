@@ -12,6 +12,8 @@
 #include <string.h>
 #include  "linked_hash_table.h"
 
+static const size_t INIT_BUCKETS_SIZE = 1 << 4;  //初始的桶大小
+static const size_t MAX_BUCKETS_SIZE = 1 << 30;  //最大的桶大小
 
 /**
  * @func 对链式哈希表进行初始化, 只有进过初始化的表才能进行其他操作
@@ -22,23 +24,19 @@
  * @param destroy: 元素的自毁函数
  */
 int linked_hash_table_init(Linked_Hash_Table * lhtable,
-							int buckets,
 							int (*h)(const void *key),
 							int (*match)(const void *key1, const void *key2),
 							void (*destroy)(void *data)){
 	if(lhtable == NULL){
-		printf("linked_hash_table_init() err args:buckets=%d, smaller than zero\n", buckets);
+		printf("linked_hash_table_init() err, lhtable is NULL.\n");
 		return -1;
 	}
 
-	if(buckets <= 0){
-		printf("linked_hash_table_init() err args:buckets=%d, smaller than zero\n", buckets);
-		return -1;
-	}
+	lhtable->buckets = 1 << 4;
 
 	int i;
 
-	lhtable->table = (List *)malloc(buckets * sizeof(List)); //分配多个链表空间
+	lhtable->table = (List *)malloc(lhtable->buckets * sizeof(List)); //分配多个链表空间
 	if(lhtable->table == NULL) {
 		printf("linked_hash_table_init() err malloc null\n");
 		return -2;
@@ -48,7 +46,7 @@ int linked_hash_table_init(Linked_Hash_Table * lhtable,
 		list_init(&lhtable->table[i], destroy); //多个链表初始化
 	}
 
-	lhtable->buckets = buckets;
+	// lhtable->buckets = buckets;
 	lhtable->h  = h;
 	lhtable->match = match;
 	lhtable->destroy = destroy;
